@@ -8,7 +8,7 @@ const FeaturedFoods = () => {
     const { isPending,isError,error,data}= useQuery ({
         queryKey:['featuredFood'],
         queryFn:async ()=>{
-            const res= await fetch('https://food-donet-server.vercel.app/featuredFoods');
+            const res= await fetch('http://localhost:5000/featuredFoods');
             return res.json()
         }
     })
@@ -44,7 +44,7 @@ const FeaturedFoods = () => {
             </div>
 
             <div className='text-center mt-10'>
-                <Link to={'/avlailablefood'} className='btn primary text-white shadow border-none '>Show All</Link>
+                <Link to={'/availablefood'} className='btn primary text-white shadow border-none '>Show All</Link>
 
             </div>
             

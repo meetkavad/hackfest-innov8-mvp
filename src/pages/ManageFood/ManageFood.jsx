@@ -6,14 +6,17 @@ import Loading from '../Loading/Loading';
 
 const ManageFood = () => {
     const [myFoods,setMyFoods]=useState([])
+    const [incomingRequests, setIncomingRequests] = useState([])
 
-    const {user,myPostedFoods}=useContext(AuthContext);
+    const {user,myPostedFoods, myRequest}=useContext(AuthContext);
 
     useEffect(()=>{
         if(user?.email){
             myPostedFoods(user?.email).then(data=>setMyFoods(data))
+            // Fetch the requests made *to* this donor
+            myRequest(user?.email, 'donor').then(data => setIncomingRequests(data))
         }
-    },[user,myPostedFoods])
+    },[user,myPostedFoods, myRequest])
 
     
 
@@ -67,7 +70,7 @@ const ManageFood = () => {
     <tbody>
       {/* row 1 */}
       {
-        myFoods.map((food,index)=><FoodManage key={index} index={index} myFoods={myFoods} setMyFoods={setMyFoods} food={food}></FoodManage>)
+        myFoods.map((food,index)=><FoodManage key={index} index={index} myFoods={myFoods} setMyFoods={setMyFoods} food={food} incomingRequests={incomingRequests.filter(req => req.foodId === food._id)} setIncomingRequests={setIncomingRequests}></FoodManage>)
       }
       
     </tbody>

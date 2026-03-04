@@ -48,7 +48,7 @@ const Banner = () => {
           className="flex items-center justify-center gap-2">
             <Link
               className="border px-3 py-2 hover:primary"
-              to={"/avlailablefood"}
+              to={"/availablefood"}
             >
               Explore Food
             </Link>

@@ -9,7 +9,7 @@ const Reviews = () => {
     const {data:reviews=[],isLoading,isError}=useQuery({
         queryKey:['reviews'],
         queryFn:async ()=>{
-            const res=await axios.get('https://food-donet-server.vercel.app/reviews');
+            const res=await axios.get('http://localhost:5000/reviews');
             return res.data
         }
     })

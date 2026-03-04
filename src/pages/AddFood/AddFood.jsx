@@ -11,14 +11,14 @@ const AddFood = () => {
     const form=e.target
     const formData=new FormData(form)
     const data=Object.fromEntries(formData.entries())
-    data.donnerName=user?.displayName
-    data.donnerimage=user?.photoURL
+    data.donnerName=user?.name || user?.displayName
+    data.donnerimage=user?.photoUrl || user?.photoURL
     data.email=user?.email
     data.status="available"
     const {quantity,...newData}=data
     newData.quantity=parseInt(quantity)
 
-    axios.post('https://food-donet-server.vercel.app/foods',newData).then(res=>{
+    axios.post('http://localhost:5000/foods',newData).then(res=>{
         if(res.data.insertedId){
             toast.success('Foods Added Successfully!')
             form.reset()

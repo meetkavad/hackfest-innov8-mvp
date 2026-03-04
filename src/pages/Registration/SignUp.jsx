@@ -8,67 +8,38 @@ import { AuthContext } from "../../Context/AuthContext";
 const SignUp = () => {
 
   
-  const { createUserWithGoogle ,createUser,UpdateUserProfile} = useContext(AuthContext);
+  const { createUser } = useContext(AuthContext);
 
   const [errore, setError] = useState("");
   const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
 
-  const handleUserWithGoogle = () => {
-    setError("");
-    createUserWithGoogle()
-      .then(() => {
-        toast.success("SignUp successfully!");
 
-        navigate(location?.state || "/");
-      })
-      .catch((error) => {
-        setError(error.message);
-        toast.error(errore)
-      });
-  };
 
   const handleSignIn = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    const userName=e.target.name.value;
-    const photoUrl=e.target.photoUrl.value
+    const userName = e.target.name.value;
+    const photoUrl = e.target.photoUrl.value;
+    const role = e.target.role.value;
        
-       setError("")
+    setError("")
     const passregex=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
     if(!passregex.test(password)){
       setError('Password muse be at least 6 characters, and include a capital letter , a number and a special characters.')
       return toast.error(errore)
     }
 
-
-    
-      setError("")
-    createUser(email,password).then(()=>{
-      
-      toast.success("SuccessFully signUp!")
-
-      setError('')
-      UpdateUserProfile(userName,photoUrl).then(()=>{
-
-      }).catch(error=>{
-        setError("User update failed :" 
-          +error.message
-         )
-         toast.error(errore)
+    createUser(email, password, userName, photoUrl, role)
+      .then(() => {
+        toast.success("SuccessFully signUp!")
+        navigate(location?.state || "/");
       })
-      navigate(location?.state || "/");
-    }).catch(error=>{
-       if(error.code==='auth/email-already-in-use'){
-        setError('This email is already register.Please try another email!')
-      }else if(error.code==='auth/weak-password'){
-        setError('Password is too weak. Please use at least 6 chereacters')
-      }else{
+      .catch(error => {
         setError(error.message)
-        toast.error(errore)
-      }
-    })
+        toast.error(error.message)
+      });
   };
 
   return (
@@ -111,6 +82,13 @@ const SignUp = () => {
               placeholder="Photo Url"
             />
 
+            <label className=" text-sm font-bold text-white">Role</label>
+            <select name="role" required className="select text-red-400 text-sm font-medium w-full">
+              <option value="donor">Donor</option>
+              <option value="recipient">Recipient</option>
+              <option value="admin">Admin</option>
+            </select>
+
             <div className="relative">
               <label className="text-sm font-bold text-white">Password</label>
               <input
@@ -135,42 +113,7 @@ const SignUp = () => {
               SignUp
             </button>
           </form>
-          <div className="py-3 text-center">
-            <h1 className="text-xl text-white text-bold">-OR-</h1>
-          </div>
-          <button
-            onClick={handleUserWithGoogle}
-            className="btn bg-white w-full text-black border-[#e5e5e5]"
-          >
-            <svg
-              aria-label="Google logo"
-              width="16"
-              height="16"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 512 512"
-            >
-              <g>
-                <path d="m0 0H512V512H0" fill="#fff"></path>
-                <path
-                  fill="#34a853"
-                  d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"
-                ></path>
-                <path
-                  fill="#4285f4"
-                  d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"
-                ></path>
-                <path
-                  fill="#fbbc02"
-                  d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"
-                ></path>
-                <path
-                  fill="#ea4335"
-                  d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"
-                ></path>
-              </g>
-            </svg>
-            SignUp with Google
-          </button>
+
 
           <p className="text-white mt-3">
             have an aacount?{" "}

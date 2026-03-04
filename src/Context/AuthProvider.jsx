@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-
-import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile} from 'firebase/auth';
-
 import { AuthContext } from "./AuthContext";
-import { auth } from "../firebase/firebase.init";
 
 
 
@@ -11,8 +7,8 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const myRequest=(email)=>{
-    return fetch(`https://food-donet-server.vercel.app/myrequest?email=${email}`,{
+  const myRequest=(email, roleField = 'recipient')=>{
+    return fetch(`http://localhost:5000/myrequest?email=${email}&roleField=${roleField}`,{
       headers:{
         authorization:`Bearer ${user?.accessToken}`
       }
@@ -20,7 +16,7 @@ const AuthProvider = ({ children }) => {
   }
 
   const myPostedFoods=(email)=>{
-    return fetch(`https://food-donet-server.vercel.app/mypostedfoods?email=${email}`,{
+    return fetch(`http://localhost:5000/mypostedfoods?email=${email}`,{
       headers:{
         authorization:`Bearer ${user?.accessToken}`
       }})
@@ -30,61 +26,83 @@ const AuthProvider = ({ children }) => {
 
   
 
-  const handleLoginWithEmailPass=(email,password)=>{
-    setLoading(true)
-    return signInWithEmailAndPassword(auth,email,password)
-  }
-
-  const createUserWithGoogle=()=>{
-    setLoading(true)
-        const Provider=new GoogleAuthProvider
-        return signInWithPopup(auth,Provider);
+  const handleLoginWithEmailPass = async (email, password) => {
+    setLoading(true);
+    try {
+      const response = await fetch("http://localhost:5000/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Login failed");
+      
+      localStorage.setItem("token", data.token);
+      setUser(data.user);
+      setLoading(false);
+      return data;
+    } catch (error) {
+      setLoading(false);
+      throw error;
     }
+  };
 
-    const createUser=(email,password)=>{
-      setLoading(true)
-      return createUserWithEmailAndPassword(auth,email,password)
+  const createUser = async (email, password, name, photoUrl, role) => {
+    setLoading(true);
+    try {
+      const response = await fetch("http://localhost:5000/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, name, photoUrl, role }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Signup failed");
+      
+      localStorage.setItem("token", data.token);
+      setUser(data.user);
+      setLoading(false);
+      return data;
+    } catch (error) {
+      setLoading(false);
+      throw error;
     }
+  };
 
-    const UpdateUserProfile=(name,photoURL)=>{
-        return updateProfile(auth.currentUser,{
-            displayName:name,
-            photoURL:photoURL
-        })
-    }
-
-    const handleResetPassword=(email)=>{
-      setLoading(true)
-      return sendPasswordResetEmail(auth,email)
-    }
-
-    const handlesignOut=()=>{
-      return signOut(auth)
-    }
+  const handlesignOut = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+  };
 
   useEffect(() => {
-    const unSubscribe = onAuthStateChanged (auth, (CurrentUser) => {
-      setUser(CurrentUser);
-      setLoading(false);
-    });
-    return () => {
-      unSubscribe();
-    };
+    // Check if token exists in localStorage on mount
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        // Decode JWT manually (basic decoding)
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        const decodedUser = JSON.parse(jsonPayload);
+        setUser(decodedUser);
+      } catch(e) {
+        console.error("Invalid token", e);
+        localStorage.removeItem("token");
+      }
+    }
+    setLoading(false);
   }, []);
 
   const userInfo = {
     user,
     loading,
-    createUserWithGoogle,
     handlesignOut,
     handleLoginWithEmailPass,
-   
-    handleResetPassword,
     createUser,
-    UpdateUserProfile,
     myRequest,
     myPostedFoods,
-    
   };
 
   return (

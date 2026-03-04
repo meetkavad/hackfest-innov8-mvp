@@ -50,10 +50,10 @@ const MyFoodRequest = () => {
     <thead>
       <tr>
         <th>Index</th>
-        <th>Donar Name</th>
+        <th>Donor Name</th>
         <th>Location</th>
         <th>Expired Date</th>
-        <th>Reques Date</th>
+        <th>Request Date</th>
       </tr>
     </thead>
     <tbody>

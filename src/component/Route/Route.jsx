@@ -33,9 +33,9 @@ import BlogDetails from "../../pages/Blogs/BlogDetails";
           Component:SignUp
         },
         {
-          path:'/avlailablefood',
+          path:'/availablefood',
           element:<AvialableFoods></AvialableFoods>,
-          loader: ()=>fetch('https://food-donet-server.vercel.app/foods'),
+          loader: ()=>fetch('http://localhost:5000/foods?status=available'),
            HydrateFallback:Loading
         },
         {
@@ -53,7 +53,7 @@ import BlogDetails from "../../pages/Blogs/BlogDetails";
         {
           path:'/details/:id',
           element:<PrivetRout> <Details></Details> </PrivetRout>,
-          loader:({params})=>fetch(`https://food-donet-server.vercel.app/foods/${params.id}`),
+          loader:({params})=>fetch(`http://localhost:5000/foods/${params.id}`),
           HydrateFallback:Loading
         },
         {

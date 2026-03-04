@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { FaLocationArrow } from "react-icons/fa";
 import { useLoaderData, useNavigate } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
@@ -7,7 +7,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const Details = () => {
-    const {user}=useContext(AuthContext)
+    const {user, myRequest}=useContext(AuthContext)
+    const [hasRequested, setHasRequested] = useState(false);
     const navigate = useNavigate()
   const food = useLoaderData();
   const {
@@ -20,6 +21,17 @@ const Details = () => {
     donnerName,
   } = food;
 
+  useEffect(() => {
+    if (user?.email && myRequest) {
+      myRequest(user.email).then(data => {
+         const alreadyRequested = data.find(req => req.foodId === food._id);
+         if (alreadyRequested) {
+             setHasRequested(true);
+         }
+      }).catch(err => console.error("Failed to check existing requests", err));
+    }
+  }, [user, food._id, myRequest]);
+
   const handleRequest=e=>{
     e.preventDefault()
     const form=e.target;
@@ -31,42 +43,29 @@ const Details = () => {
         foodImage:food.foodImage,
         donnerEmail:email,
         donnerName:donnerName,
-        userEmail:user?.email,
-        requetTaime:moment().format('YYYY-MM-DD HH:mm:ss'),
+        requesterEmail:user?.email,
+        requesterName:user?.name || user?.displayName || 'Unknown',
+        requesterImage:user?.photoURL || user?.photoUrl || '',
+        requestDate:moment().format('YYYY-MM-DD HH:mm:ss'),
         location:location,
         expiredDate:expiredDate,
-        notes:form.notes.value,
+        requestNotes:form.notes.value,
         status:"requested"
         
 
     }
 
-    axios.post('https://food-donet-server.vercel.app/myrequest',reqInfo)
+    axios.post('http://localhost:5000/myrequest',reqInfo)
     .then(res=>{
         if(res.data.insertedId){
             toast.success('Request successfully!')
             document.getElementById('my_modal_4').close()
-
-            axios.patch(`https://food-donet-server.vercel.app/foods/${food._id}`,{
-                 status:"requested"
-            }).then(res=>{
-                if(res.data.modifiedCount){
-                    toast.success('successfully midified!')
-                    navigate('/avlailablefood')
-                }
-            })
-            .catch(error=>{
-                toast.error(error.message)
-            })
-
-
+            navigate('/availablefood')
         }
     })
     .catch(error=>{
         toast.error(error.message)
     })
-
-    
   } 
 
   return (
@@ -112,18 +111,22 @@ const Details = () => {
                     />
                     <div>
                       <p className="font-bold text-sm">
-                        Donner Name : {donnerName}
+                        Donor Name : {donnerName}
                       </p>
                       <p className="font-bold text-sm">
-                        Donner Email : {email}
+                        Donor Email : {email}
                       </p>
                     </div>
                   </div>
                 </div>
 
                 <div className="text-center mt-3 ">
-                  <button onClick={() => document.getElementById("my_modal_4").showModal()} className="btn primary text-white border-none">
-                    Food Request
+                  <button 
+                    disabled={status === 'unavailable' || hasRequested} 
+                    onClick={() => document.getElementById("my_modal_4").showModal()} 
+                    className="btn primary text-white border-none disabled:bg-gray-400"
+                  >
+                    {status === 'unavailable' ? 'Unavailable' : hasRequested ? 'Already Requested' : 'Food Request'}
                   </button>
                 </div>
               </div>
@@ -151,11 +154,11 @@ const Details = () => {
 
                 <input type="text" value={food._id} readOnly className="input text-center" />
 
-                <label className="text-sm font-bold" htmlFor="">Donner Email</label>
+                <label className="text-sm font-bold" htmlFor="">Donor Email</label>
 
                 <input type="text" value={email} readOnly className="input text-center" />
 
-                 <label className="text-sm font-bold" htmlFor="">Donner Name</label>
+                 <label className="text-sm font-bold" htmlFor="">Donor Name</label>
                 
                 
                 <input type="text" value={donnerName} readOnly className="input text-center" />

@@ -8,7 +8,7 @@ const Blogs = () => {
     const {data:blogs=[],isLoading,isError}=useQuery({
         queryKey:['blogs'],
         queryFn: async ()=>{
-            const res= await axios.get('https://food-donet-server.vercel.app/blogs');
+            const res= await axios.get('http://localhost:5000/blogs');
             return res.data
         }
     })
