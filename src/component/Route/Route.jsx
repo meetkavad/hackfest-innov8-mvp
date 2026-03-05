@@ -16,6 +16,15 @@ import Loading from "../../pages/Loading/Loading";
 import Details from "../../pages/Details/Details"
 import Blogs from "../../pages/Blogs/Blogs";
 import BlogDetails from "../../pages/Blogs/BlogDetails";
+import AdminLayout from "../../pages/AdminDashboard/AdminLayout";
+import Impacts from "../../pages/AdminDashboard/Impacts";
+import UsersList from "../../pages/AdminDashboard/UsersList";
+import AllRequests from "../../pages/AdminDashboard/AllRequests";
+import AdminFoods from "../../pages/AdminDashboard/AdminFoods";
+import UserVerification from "../../pages/AdminDashboard/UserVerification";
+import AddAdmin from "../../pages/AdminDashboard/AddAdmin";
+
+import AdminRoute from "./AdminRoute";
 
  export const router = createBrowserRouter([
     {
@@ -63,6 +72,18 @@ import BlogDetails from "../../pages/Blogs/BlogDetails";
         {
           path:'/blogs/:id',
           Component:BlogDetails
+        },
+        {
+          path: '/admin',
+          element: <AdminRoute><AdminLayout></AdminLayout></AdminRoute>,
+          children: [
+            { path: 'impacts', element: <Impacts></Impacts> },
+            { path: 'users', element: <UsersList></UsersList> },
+            { path: 'verification', element: <UserVerification></UserVerification> },
+            { path: 'requests', element: <AllRequests></AllRequests> },
+            { path: 'foods', element: <AdminFoods></AdminFoods> },
+            { path: 'add-admin', element: <AddAdmin></AddAdmin> }
+          ]
         }
       ]
     },

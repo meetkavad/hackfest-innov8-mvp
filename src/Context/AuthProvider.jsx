@@ -47,19 +47,24 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const createUser = async (email, password, name, photoUrl, role) => {
+  const createUser = async (userData) => {
     setLoading(true);
     try {
       const response = await fetch("http://localhost:5000/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, name, photoUrl, role }),
+        body: JSON.stringify(userData),
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Signup failed");
       
-      localStorage.setItem("token", data.token);
-      setUser(data.user);
+      // We only log the user in if a token was provided (Admin signup)
+      // Normal signup returns 202 without a token
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        setUser(data.user);
+      }
+      
       setLoading(false);
       return data;
     } catch (error) {

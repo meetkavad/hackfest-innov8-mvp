@@ -100,7 +100,6 @@ const FoodManage = ({ food, index,setMyFoods,myFoods, incomingRequests, setIncom
                               </>
                            )}
                            {req.status === 'accepted' && <button onClick={() => updateRequestStatus('picked up')} className="btn btn-xs btn-secondary">Mark Picked Up</button>}
-                           {req.status === 'picked up' && <button onClick={() => updateRequestStatus('delivered')} className="btn btn-xs btn-accent">Mark Delivered</button>}
                         </div>
                     </div>
                     <ul className="steps w-full text-xs mt-3">

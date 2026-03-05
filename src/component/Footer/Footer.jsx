@@ -31,17 +31,17 @@ const Footer = () => {
         <div className="md:space-y-2">
           <div className="flex items-center gap-1 font-bold text-lg">
             <FaPhone></FaPhone>
-            <p>+880 1918513419</p>
+            <p>+880 1711111111</p>
           </div>
 
           <div className="flex items-center gap-1 font-bold text-lg">
             <IoMdMail />
-            <p>imranfaraji880@gmail.com</p>
+            <p>info@sharebite.com</p>
           </div>
 
           <div className="flex items-center gap-1 font-bold text-lg">
             <FaLocationDot />
-            <p>Pro. 3 no. word, Borhanuddin Bhola.</p>
+            <p>Share Bite Square, Vesu, Surat</p>
           </div>
         </div>
 
@@ -53,16 +53,16 @@ const Footer = () => {
           <div className="flex items-center gap-2 mt-2">
             <a
               target="_blank"
-              href="https://www.facebook.com/imranhosen.borhany"
+              href="https://www.facebook.com/"
             >
               <FaFacebook />
             </a>
-            <a target="_blank" href="https://www.instagram.com/imran_2k20/">
+            <a target="_blank" href="https://www.instagram.com/">
               <FaInstagramSquare />
             </a>
             <a
               target="_blank"
-              href="https://www.linkedin.com/in/imran-hosen-a4814b363/"
+              href="https://www.linkedin.com/in/"
             >
               <FaLinkedin />
             </a>

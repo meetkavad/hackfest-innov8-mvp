@@ -26,7 +26,7 @@ const Reviews = () => {
 
             <div className='text-color text-center'>
 
-                <h1 className='font-bold text-3xl'>What People Say About ShareBit</h1>
+                <h1 className='font-bold text-3xl'>What People Say About ShareBite</h1>
                 <p className='text-sm mt-3'>
                     Real stories from donors and recipients who have experienced the joy of giving and receving.
                 </p>

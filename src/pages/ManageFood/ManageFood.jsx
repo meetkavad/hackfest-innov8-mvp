@@ -46,7 +46,7 @@ const ManageFood = () => {
                                  <p className="font-bold">You haven't added any food yet</p>
                                  <p className="font-medium">For add</p>{" "}
                                  <Link className="btn" to={"/addfood"}>
-                                   Go To Availablefood
+                                   Go To Add Food
                                  </Link>
                                </div>
                              </div>

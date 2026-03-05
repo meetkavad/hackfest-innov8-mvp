@@ -1,6 +1,8 @@
 import express from 'express';
 import Food from '../models/Food.js';
 import Request from '../models/Request.js';
+import User from '../models/User.js';
+import Notification from '../models/Notification.js';
 
 const router = express.Router();
 
@@ -34,6 +36,35 @@ router.post('/', async (req, res) => {
   try {
     const newFood = new Food(req.body);
     const savedFood = await newFood.save();
+
+    // Notification Logic
+    if (savedFood.notifyRecipients && savedFood.coordinates && savedFood.coordinates.length === 2) {
+      const radiusInKm = savedFood.notifyRange || 5;
+      const radiusInRadians = radiusInKm / 6378.1; // Earth's equatorial radius in km
+
+      // Find nearby recipients
+      const nearbyRecipients = await User.find({
+        role: 'recipient',
+        status: 'approved', // Only notify approved recipients
+        location: {
+          $geoWithin: {
+            $centerSphere: [[savedFood.coordinates[0], savedFood.coordinates[1]], radiusInRadians]
+          }
+        }
+      });
+
+      // Create notifications
+      const notifications = nearbyRecipients.map(recipient => ({
+        recipientEmail: recipient.email,
+        foodId: savedFood._id,
+        message: `New food available within ${radiusInKm}km: ${savedFood.foodName} at ${savedFood.location}`
+      }));
+
+      if (notifications.length > 0) {
+        await Notification.insertMany(notifications);
+      }
+    }
+
     res.json({ insertedId: savedFood._id });
   } catch (error) {
     res.status(500).json({ error: error.message });

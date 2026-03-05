@@ -5,6 +5,9 @@ const FoodSchema = new mongoose.Schema({
   foodImage: { type: String, required: true },
   quantity: { type: Number, required: true },
   location: { type: String, required: true },
+  coordinates: { type: [Number], required: false }, // [longitude, latitude]
+  notifyRecipients: { type: Boolean, default: false },
+  notifyRange: { type: Number, default: 5 }, // in km
   expiredDate: { type: String, required: true },
   notes: { type: String },
   donnerName: { type: String },

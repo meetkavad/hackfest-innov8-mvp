@@ -15,9 +15,13 @@ const Home = () => {
         return <ManageFood />;
     }
 
+    if (user && user.role === 'admin') {
+        return <Navigate to="/admin/impacts" replace />;
+    }
+
     return (
         <>
-        <title>ShareBite || Home</title>
+        <title>ShareBite </title>
         <Banner></Banner>
         <FeaturedFoods></FeaturedFoods>
         <HowItWork></HowItWork>

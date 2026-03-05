@@ -59,7 +59,7 @@ const MyFoodRequest = () => {
     <tbody>
       {/* row 1 */}
       {
-        requestFood.map((request,index)=><RequestTable key={index} index={index} request={request}></RequestTable>)
+        requestFood.map((request,index)=><RequestTable key={request._id || index} index={index} request={request} requestFood={requestFood} setRequestFood={setRequestFood}></RequestTable>)
       }
       
     </tbody>
