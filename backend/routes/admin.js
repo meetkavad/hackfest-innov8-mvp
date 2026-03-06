@@ -74,6 +74,20 @@ router.get('/stats', async (req, res) => {
   }
 });
 
+// GET all poor performing donors
+router.get('/poor-performers', async (req, res) => {
+  try {
+    const poorDonors = await User.find({
+      role: 'donor',
+      'trustScore.totalReviews': { $gte: 5 },
+      'trustScore.overall': { $lt: 1.5 }
+    }).sort({ 'trustScore.overall': 1 }); // Lowest scores first
+    res.json(poorDonors);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // GET all requests for admin
 router.get('/requests', async (req, res) => {
   try {

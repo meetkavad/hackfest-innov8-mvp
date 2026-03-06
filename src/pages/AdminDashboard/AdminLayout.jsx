@@ -46,6 +46,12 @@ const AdminLayout = () => {
                         Available Foods
                     </NavLink>
                     <NavLink 
+                        to="/admin/poor-performers" 
+                        className={({isActive}) => `block px-4 py-2 rounded ${isActive ? 'bg-red-100 text-red-700 font-bold' : 'text-red-500 font-semibold hover:bg-red-50'}`}
+                    >
+                        Poor Performers
+                    </NavLink>
+                    <NavLink 
                         to="/admin/add-admin" 
                         className={({isActive}) => `block px-4 py-2 rounded ${isActive ? 'bg-green-100 text-green-700 font-semibold' : 'text-gray-600 hover:bg-gray-100'}`}
                     >

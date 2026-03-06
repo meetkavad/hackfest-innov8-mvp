@@ -23,6 +23,7 @@ import AllRequests from "../../pages/AdminDashboard/AllRequests";
 import AdminFoods from "../../pages/AdminDashboard/AdminFoods";
 import UserVerification from "../../pages/AdminDashboard/UserVerification";
 import AddAdmin from "../../pages/AdminDashboard/AddAdmin";
+import PoorPerformers from "../../pages/AdminDashboard/PoorPerformers";
 
 import AdminRoute from "./AdminRoute";
 
@@ -82,6 +83,7 @@ import AdminRoute from "./AdminRoute";
             { path: 'verification', element: <UserVerification></UserVerification> },
             { path: 'requests', element: <AllRequests></AllRequests> },
             { path: 'foods', element: <AdminFoods></AdminFoods> },
+            { path: 'poor-performers', element: <PoorPerformers></PoorPerformers> },
             { path: 'add-admin', element: <AddAdmin></AddAdmin> }
           ]
         }
