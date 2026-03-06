@@ -64,6 +64,9 @@ const FoodManage = ({ food, index,setMyFoods,myFoods, incomingRequests, setIncom
                     if (req.status === 'rejected') {
                          return stepName === 'requested' ? 'step step-primary' : 'step step-error'; 
                     }
+                    if (req.status === 'canceled') {
+                         return stepName === 'requested' ? 'step step-primary' : 'step step-error';
+                    }
 
                     const currentIndex = flow.indexOf(req.status?.toLowerCase() || 'requested');
                     const stepIndex = flow.indexOf(stepName);
@@ -89,23 +92,36 @@ const FoodManage = ({ food, index,setMyFoods,myFoods, incomingRequests, setIncom
                 };
 
                 return (
-                  <div key={req._id} className="w-full bg-white p-4 rounded shadow-sm border border-gray-100">
-                    <div className="flex justify-between items-center mb-4">
-                        <span className="font-semibold text-sm">Requester: {req.requesterName || req.requestEmail || 'Unknown'}</span>
-                        <div className="flex gap-2 text-xs">
+                  <div key={req._id} className="w-full bg-slate-50 p-5 rounded-lg shadow-sm border border-emerald-100 hover:shadow-md transition-shadow">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+                        <div>
+                            <div className="font-bold text-gray-800 text-base mb-1">Requester: <span className="text-emerald-700">{req.requesterDetails?.name || req.requesterName || req.requestEmail || 'Unknown'}</span></div>
+                            {req.distanceKm !== undefined && (
+                                <div className="text-xs text-emerald-800 font-bold inline-flex items-center gap-1 bg-emerald-100 px-2.5 py-1 rounded-full shadow-sm">
+                                   📍 {Number(req.distanceKm).toFixed(1)} km away
+                                </div>
+                            )}
+                        </div>
+                        <div className="flex gap-2 text-xs shrink-0">
                            {req.status === 'requested' && (
                               <>
                                 <button onClick={() => updateRequestStatus('accepted')} className="btn btn-xs btn-primary">Accept</button>
                                 <button onClick={() => updateRequestStatus('rejected')} className="btn btn-xs btn-error text-white">Reject</button>
                               </>
                            )}
-                           {req.status === 'accepted' && <button onClick={() => updateRequestStatus('picked up')} className="btn btn-xs btn-secondary">Mark Picked Up</button>}
+                           {req.status === 'accepted' && (
+                               <>
+                                 <button onClick={() => updateRequestStatus('canceled')} className="btn btn-xs btn-error text-white">Cancel</button>
+                               </>
+                           )}
                         </div>
                     </div>
-                    <ul className="steps w-full text-xs mt-3">
+                    <ul className="steps steps-vertical lg:steps-horizontal w-full text-xs mt-4 font-bold tracking-wide text-gray-500">
                       <li className={getStepClass('requested')}>Requested</li>
                       {req.status === 'rejected' ? (
                           <li className={getStepClass('rejected')} data-content="✕">Rejected</li>
+                      ) : req.status === 'canceled' ? (
+                          <li className={getStepClass('canceled')} data-content="✕">Canceled</li>
                       ) : (
                           <>
                             <li className={getStepClass('accepted')}>Accepted</li>

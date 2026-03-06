@@ -24,19 +24,14 @@ const ManageFood = () => {
         <div className='w-full secondary py-32 min-h-screen'>
             <title>ManageFood</title>
 
-            <div className="text-color text-center">
-          <h1 className="text-3xl font-bold mb-3">Manage My Foods
-            
-            
-          </h1>
-          <p className="text-sm font-bold">
-            
-            View, Update, or delete the foods you've dhared.
-          </p>
-          </div>
+            <div className="text-color text-center mb-8">
+              <h1 className="text-3xl font-bold mb-3">Manage My Foods</h1>
+              <p className="text-sm font-bold">
+                  View, Update, or delete the foods you've shared.
+              </p>
+            </div>
 
             <div className='responsive'>
-
                 {
                     myFoods.length==0
                     ?

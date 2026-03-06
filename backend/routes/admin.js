@@ -18,11 +18,56 @@ router.get('/stats', async (req, res) => {
     const totalDonors = await User.countDocuments({ role: 'donor' });
     const totalRecipients = await User.countDocuments({ role: 'recipient' });
 
+    // Grouping foods by status
+    const foodsByStatus = await Food.aggregate([
+      { $group: { _id: "$status", count: { $sum: 1 } } }
+    ]);
+
+    // Grouping requests by status
+    const requestsByStatus = await Request.aggregate([
+      { $group: { _id: "$status", count: { $sum: 1 } } }
+    ]);
+
+    // Aggregate to find total people fed and people fed by month based on food quantity
+    const peopleFedAggregation = await Request.aggregate([
+      { $match: { status: 'delivered' } },
+      {
+        $lookup: {
+          from: 'foods',
+          localField: 'foodId',
+          foreignField: '_id',
+          as: 'foodDetails'
+        }
+      },
+      { $unwind: '$foodDetails' },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } },
+          peopleFed: { $sum: '$foodDetails.quantity' }
+        }
+      },
+      { $sort: { _id: 1 } } // Sort by month ascending
+    ]);
+
+    // Compute grand total and format daily/month array
+    let totalPeopleFed = 0;
+    const peopleFedByMonth = peopleFedAggregation.map(item => {
+        totalPeopleFed += item.peopleFed;
+        return {
+           month: item._id, // e.g., "2026-01"
+           peopleFed: item.peopleFed
+        };
+    });
+
     res.json({
       totalDonations,
       totalMealsSaved,
       totalDonors,
-      totalRecipients
+      totalRecipients,
+      foodsByStatus,
+      requestsByStatus,
+      totalPeopleFed,
+      peopleFedByMonth
     });
   } catch (error) {
     res.status(500).json({ error: error.message });

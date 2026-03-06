@@ -24,9 +24,11 @@ const Details = () => {
   useEffect(() => {
     if (user?.email && myRequest) {
       myRequest(user.email).then(data => {
-         const alreadyRequested = data.find(req => req.foodId === food._id);
+         const alreadyRequested = data.find(req => req.foodId === food._id && req.status !== 'canceled' && req.status !== 'rejected');
          if (alreadyRequested) {
              setHasRequested(true);
+         } else {
+             setHasRequested(false);
          }
       }).catch(err => console.error("Failed to check existing requests", err));
     }
@@ -69,7 +71,7 @@ const Details = () => {
   } 
 
   return (
-    <div className="w-full secondary min-h-screen flex items-center justify-center">
+    <div className="w-full secondary min-h-screen pt-28 pb-12">
       <title>Details</title>
 
       <div className="responsive">
@@ -103,20 +105,24 @@ const Details = () => {
 
                   {/* donner information */}
 
-                  <div className="mt-3 flex items-center justify-center gap-4">
-                    <img
-                      src={donnerimage}
-                      alt=""
-                      className="w-15 h-15 rounded-full  border-2 border-green-800"
-                    />
-                    <div>
-                      <p className="font-bold text-sm">
-                        Donor Name : {donnerName}
-                      </p>
-                      <p className="font-bold text-sm">
-                        Donor Email : {email}
-                      </p>
+                  <div className="mt-4 p-4 flex flex-col items-center justify-center gap-3">
+                    <div className="flex items-center gap-4">
+                      <img
+                        src={donnerimage}
+                        alt=""
+                        className="w-16 h-16 object-cover rounded-full border-2 border-emerald-600 shadow-sm"
+                      />
+                      <div>
+                        <p className="font-bold text-gray-800 text-sm mb-0.5">
+                          Donor Name : <span className="text-emerald-700">{donnerName}</span>
+                        </p>
+                        <p className="font-bold text-sm text-gray-500">
+                          Donor Email : {email}
+                        </p>
+                      </div>
                     </div>
+
+                    {/* Donor Trust Score Panel moved below main content */}
                   </div>
                 </div>
 
@@ -132,6 +138,37 @@ const Details = () => {
               </div>
             </div>
           </div>
+
+          {/* Donor Trust Score Panel - Moved Below Main Content */}
+          {food.donorTrustScore && food.donorTrustScore.totalReviews > 0 && (
+            <div className="mt-6 px-4 md:px-10 pb-6 w-full">
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-emerald-100 w-full mx-auto max-w-3xl">
+                <div className="text-sm text-center font-bold text-gray-400 uppercase tracking-wider mb-6 flex items-center justify-center gap-3">
+                   <div className="h-px bg-gray-200 flex-1 max-w-[50px] md:max-w-[100px]"></div>
+                   Donor Trust Scores • {food.donorTrustScore.totalReviews} Reviews
+                   <div className="h-px bg-gray-200 flex-1 max-w-[50px] md:max-w-[100px]"></div>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="flex flex-col items-center justify-center p-4 bg-green-50 rounded-xl border border-green-100 hover:shadow-md transition-shadow">
+                    <span className="text-3xl font-black text-green-600 mb-1">{food.donorTrustScore.freshness.toFixed(1)} <span className="text-xl">★</span></span>
+                    <span className="text-xs font-bold text-green-800 uppercase tracking-wide">Freshness</span>
+                  </div>
+                  <div className="flex flex-col items-center justify-center p-4 bg-yellow-50 rounded-xl border border-yellow-100 hover:shadow-md transition-shadow">
+                    <span className="text-3xl font-black text-yellow-500 mb-1">{food.donorTrustScore.packaging.toFixed(1)} <span className="text-xl">★</span></span>
+                    <span className="text-xs font-bold text-yellow-800 uppercase tracking-wide">Packaging</span>
+                  </div>
+                  <div className="flex flex-col items-center justify-center p-4 bg-blue-50 rounded-xl border border-blue-100 hover:shadow-md transition-shadow">
+                    <span className="text-3xl font-black text-blue-600 mb-1">{food.donorTrustScore.amount.toFixed(1)} <span className="text-xl">★</span></span>
+                    <span className="text-xs font-bold text-blue-800 uppercase tracking-wide">Amount</span>
+                  </div>
+                  <div className="flex flex-col items-center justify-center p-4 bg-purple-50 rounded-xl border border-purple-100 hover:shadow-md transition-shadow">
+                    <span className="text-3xl font-black text-purple-600 mb-1">{food.donorTrustScore.overall.toFixed(1)} <span className="text-xl">★</span></span>
+                    <span className="text-xs font-bold text-purple-800 uppercase tracking-wide">Overall</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* You can open the modal using document.getElementById('ID').showModal() method */}

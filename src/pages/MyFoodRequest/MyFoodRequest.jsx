@@ -48,12 +48,13 @@ const MyFoodRequest = () => {
   <table className="table bg-white ">
     {/* head */}
     <thead>
-      <tr>
-        <th>Index</th>
+      <tr className="bg-emerald-50 text-emerald-900 shadow-sm">
+        <th className="rounded-tl-lg">Index</th>
         <th>Donor Name</th>
-        <th>Location</th>
-        <th>Expired Date</th>
-        <th>Request Date</th>
+        <th>Food Name</th>
+        <th>Pickup Location</th>
+        <th>Expiry Date</th>
+        <th className="rounded-tr-lg">Request Date</th>
       </tr>
     </thead>
     <tbody>

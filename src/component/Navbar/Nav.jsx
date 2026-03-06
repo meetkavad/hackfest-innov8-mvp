@@ -64,8 +64,8 @@ const Nav = () => {
   };
 
   return (
-    <div className="w-full primary fixed top-0 z-[9999] text-white">
-      <div className="navbar responsive shadow-sm">
+    <div className="w-full glass-effect fixed top-0 z-[9999] text-gray-800 transition-all duration-300">
+      <div className="navbar responsive">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -90,15 +90,18 @@ const Nav = () => {
               className="menu menu-sm dropdown-content bg-gray-600 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
               {(!user || user.role === 'recipient') && (
+                <li className="text-sm font-bold">
+                  <NavLink
+                    className={({ isActive }) => (isActive ? "border-b rounded-none border-b-orange-300" : "")}
+                    to={"/"}
+                  >
+                    Home
+                  </NavLink>
+                </li>
+              )}
+
+              {user?.role === 'recipient' && (
                 <>
-                  <li className="text-sm font-bold">
-                    <NavLink
-                      className={({ isActive }) => (isActive ? "border-b rounded-none border-b-orange-300" : "")}
-                      to={"/"}
-                    >
-                      Home
-                    </NavLink>
-                  </li>
                   <li className="text-sm font-bold">
                     <NavLink
                       className={({ isActive }) => (isActive ? "border-b rounded-none border-b-orange-300" : "")}
@@ -107,10 +110,18 @@ const Nav = () => {
                       Available Foods
                     </NavLink>
                   </li>
+                  <li className="text-sm font-bold">
+                    <NavLink
+                      className={({ isActive }) => (isActive ? "border-b rounded-none border-b-orange-300" : "")}
+                      to={"/foodrequest"}
+                    >
+                      My Food Request
+                    </NavLink>
+                  </li>
                 </>
               )}
 
-              {user?.role === 'donor' && (
+              {(user?.role === 'donor' || user?.role === 'Donor') && (
                 <>
                   <li className="text-sm font-bold">
                     <NavLink
@@ -129,17 +140,6 @@ const Nav = () => {
                     </NavLink>
                   </li>
                 </>
-              )}
-
-              {user?.role === 'recipient' && (
-                <li className="text-sm font-bold">
-                  <NavLink
-                    className={({ isActive }) => (isActive ? "border-b rounded-none border-b-orange-300" : "")}
-                    to={"/foodrequest"}
-                  >
-                    My Food Request
-                  </NavLink>
-                </li>
               )}
 
               {user?.role === 'admin' && (
@@ -165,14 +165,13 @@ const Nav = () => {
             </li>
             </ul>
           </div>
-          <Link to={"/"} className="md:text-2xl text-xl italic font-extrabold">
-            Share<span className="text-orange-300 text-2xl md:text-3xl">Bite</span>{" "}
+          <Link to={"/"} className="md:text-2xl text-xl font-extrabold tracking-tight ms-2 md:ms-0">
+            Share<span className="text-emerald-500 text-2xl md:text-3xl">Bite</span>{" "}
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             {(!user || user.role === 'recipient') && (
-              <>
                 <li className="text-sm font-bold">
                   <NavLink
                     className={({ isActive }) => (isActive ? "border-b rounded-none border-b-orange-300" : "")}
@@ -181,6 +180,10 @@ const Nav = () => {
                     Home
                   </NavLink>
                 </li>
+            )}
+
+            {user?.role === 'recipient' && (
+              <>
                 <li className="text-sm font-bold">
                   <NavLink
                     className={({ isActive }) => (isActive ? "border-b rounded-none border-b-orange-300" : "")}
@@ -189,10 +192,18 @@ const Nav = () => {
                     Available Foods
                   </NavLink>
                 </li>
+                <li className="text-sm font-bold">
+                  <NavLink
+                    className={({ isActive }) => (isActive ? "border-b rounded-none border-b-orange-300" : "")}
+                    to={"/foodrequest"}
+                  >
+                    My Food Request
+                  </NavLink>
+                </li>
               </>
             )}
 
-            {user?.role === 'donor' && (
+            {(user?.role === 'donor' || user?.role === 'Donor') && (
               <>
                 <li className="text-sm font-bold">
                   <NavLink
@@ -211,17 +222,6 @@ const Nav = () => {
                   </NavLink>
                 </li>
               </>
-            )}
-
-            {user?.role === 'recipient' && (
-              <li className="text-sm font-bold">
-                <NavLink
-                  className={({ isActive }) => (isActive ? "border-b rounded-none border-b-orange-300" : "")}
-                  to={"/foodrequest"}
-                >
-                  My Food Request
-                </NavLink>
-              </li>
             )}
 
             {user?.role === 'admin' && (
@@ -250,9 +250,9 @@ const Nav = () => {
         <div className="navbar-end flex gap-3 items-center">
           {user ? (
             <>
-              <div className="flex flex-col items-end text-right hidden sm:flex">
-                <span className="text-sm font-bold text-white">{user.name || user.displayName}</span>
-                <span className="text-xs text-orange-300 uppercase tracking-wide">{user.role}</span>
+              <div className="flex flex-col items-end text-right hidden sm:flex border-r border-gray-200 pr-4 mr-2">
+                <span className="text-sm font-bold text-gray-800">{user.name || user.displayName}</span>
+                <span className="text-xs text-emerald-600 font-semibold uppercase tracking-wider">{user.role}</span>
               </div>
               {/* Notification Bell for Recipients */}
               {user?.role === 'recipient' && (
@@ -261,7 +261,7 @@ const Nav = () => {
                       onClick={() => setShowDropdown(!showDropdown)}
                       className="btn btn-ghost btn-circle relative"
                     >
-                      <FaRegBell className="h-6 w-6 text-white" />
+                      <FaRegBell className="h-6 w-6 text-gray-700 hover:text-emerald-600 transition-colors" />
                       {unreadCount > 0 && (
                         <span className="absolute top-1 right-1 badge badge-sm badge-error border-none text-white indicator-item">
                           {unreadCount}
@@ -320,13 +320,13 @@ const Nav = () => {
                   <img src={user?.photoURL || user?.photoUrl} alt="User avatar" />
                 </div>
               </div>
-              <button onClick={logoutUser} className=" btn ml-2">Logout</button>
+              <button onClick={logoutUser} className="btn btn-outline border-gray-200 hover:bg-red-50 hover:text-red-600 hover:border-red-100 ml-2 rounded-full px-6 transition-all shadow-sm">Logout</button>
             </>
           ) : (
-            <>
-              <NavLink className={'btn'} to={"/login"}>LogIn</NavLink>
-              <NavLink className={'btn'} to={"/signup"}>SignUp</NavLink>
-            </>
+            <div className="flex gap-2">
+              <NavLink className={'btn btn-ghost rounded-full font-semibold'} to={"/login"}>Log In</NavLink>
+              <NavLink className={'btn bg-emerald-500 hover:bg-emerald-600 border-none text-white rounded-full shadow-md hover-lift px-6'} to={"/signup"}>Sign Up</NavLink>
+            </div>
           )}
         </div>
       </div>

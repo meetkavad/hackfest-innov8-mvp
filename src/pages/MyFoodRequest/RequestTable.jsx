@@ -3,7 +3,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const RequestTable = ({request,index, requestFood, setRequestFood}) => {
-    const {requestDate,foodName,expiredDate,donnerName,status, _id, foodId, donnerEmail, requesterEmail}=request;
+    const {requestDate,foodName,expiredDate,donnerName,status, _id, foodId, donnerEmail, requesterEmail, location}=request;
     
     const [ratings, setRatings] = useState({ freshness: 5, packaging: 5, amount: 5, overall: 5 });
     const [comment, setComment] = useState("");
@@ -50,6 +50,9 @@ const RequestTable = ({request,index, requestFood, setRequestFood}) => {
         if (status === 'rejected') {
              return stepName === 'requested' ? 'step step-primary' : 'step step-error'; 
         }
+        if (status === 'canceled') {
+             return stepName === 'requested' ? 'step step-primary' : 'step step-error';
+        }
 
         const currentIndex = flow.indexOf(status?.toLowerCase() || 'requested');
         const stepIndex = flow.indexOf(stepName);
@@ -80,12 +83,13 @@ const RequestTable = ({request,index, requestFood, setRequestFood}) => {
 
     return (
       <React.Fragment>
-        <tr className="bg-base-200">
-          <th>{index+1}</th>
-          <td className="font-bold">{donnerName}</td>
-          <td>{foodName}</td>
-          <td>{expiredDate}</td>
-          <td>{requestDate}</td>
+        <tr className="bg-white hover:bg-emerald-50 transition-colors border-b">
+          <th className="font-medium text-gray-500">{index+1}</th>
+          <td className="font-bold text-gray-800">{donnerName}</td>
+          <td className="font-semibold text-emerald-700">{foodName}</td>
+          <td className="text-sm text-gray-600 max-w-xs truncate" title={location}>{location || 'N/A'}</td>
+          <td className="text-sm text-red-500 font-medium whitespace-nowrap">{expiredDate || 'Not specified'}</td>
+          <td className="text-sm text-gray-500 font-medium whitespace-nowrap">{requestDate}</td>
         </tr>
         <tr>
           <td colSpan="5" className="p-4 bg-base-100 border-b-2">
@@ -93,17 +97,31 @@ const RequestTable = ({request,index, requestFood, setRequestFood}) => {
                
                <div className="flex justify-between items-center">
                    <div className="text-sm font-semibold text-gray-600">Status Tracking</div>
-                   {status === 'picked up' && (
-                       <button onClick={() => updateRequestStatus('delivered', true)} className="btn btn-sm btn-accent text-white">
-                           Mark Received
-                       </button>
-                   )}
+                   <div className="flex gap-2">
+                     {(status === 'requested' || status === 'accepted') && (
+                         <button onClick={() => updateRequestStatus('canceled', false)} className="btn btn-sm btn-error text-white">
+                             Cancel Request
+                         </button>
+                     )}
+                     {status === 'accepted' && (
+                         <button onClick={() => updateRequestStatus('picked up', false)} className="btn btn-sm btn-secondary text-white">
+                             Mark Picked Up
+                         </button>
+                     )}
+                     {status === 'picked up' && (
+                         <button onClick={() => updateRequestStatus('delivered', true)} className="btn btn-sm btn-accent text-white">
+                             Mark Received
+                         </button>
+                     )}
+                   </div>
                </div>
 
-               <ul className="steps w-full text-xs md:text-sm">
+               <ul className="steps steps-vertical lg:steps-horizontal w-full text-xs md:text-sm mt-4 font-bold tracking-wide text-gray-500">
                   <li className={getStepClass('requested')}>Requested</li>
                   {status === 'rejected' ? (
                       <li className={getStepClass('rejected')} data-content="✕">Rejected</li>
+                  ) : status === 'canceled' ? (
+                      <li className={getStepClass('canceled')} data-content="✕">Canceled</li>
                   ) : (
                       <>
                         <li className={getStepClass('accepted')}>Accepted</li>

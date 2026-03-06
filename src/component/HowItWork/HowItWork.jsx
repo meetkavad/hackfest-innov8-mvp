@@ -45,7 +45,7 @@ const HowItWork = () => {
             <FaSearch className="text-4xl text-blue-500 md-4 mx-auto"></FaSearch>
             <h3 className="text-xl font-semibold mb-2">Browse Foods</h3>
             <p className="text-gray-600">
-                Users explore fresh available foods listed by others.
+                Recipients explore fresh available foods listed by others.
             </p>
           </motion.div>
           {/* step-3 */}
@@ -69,7 +69,7 @@ const HowItWork = () => {
             transition={{duration:2, ease:'easeOut'}}
           className="bg-white p-6 rounded-2xl shadow hover:shadow-2xl transition">
             <FaUtensils className="text-4xl text-red-500 md-4 mx-auto"></FaUtensils>
-            <h3 className="text-xl font-semibold mb-2">Pickup & Enjoy</h3>
+            <h3 className="text-xl font-semibold mb-2">Pickup Food </h3>
             <p className="text-gray-600">
                 Connect, Collect, and help reduce food waste together.
             </p>

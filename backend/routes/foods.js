@@ -23,8 +23,16 @@ router.get('/', async (req, res) => {
 // GET single food by ID
 router.get('/:id', async (req, res) => {
   try {
-    const food = await Food.findById(req.params.id);
+    const food = await Food.findById(req.params.id).lean();
     if (!food) return res.status(404).json({ message: 'Food not found' });
+    
+    if (food.email) {
+        const donor = await User.findOne({ email: food.email }).lean();
+        if (donor && donor.trustScore) {
+            food.donorTrustScore = donor.trustScore;
+        }
+    }
+
     res.json(food);
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -19,12 +19,12 @@ const AvailableFood = ({allfood}) => {
     }, [allfood.email]);
 
     return (
-       <div className="card bg-base-100  shadow-sm overflow-hidden border border-gray-100">
-  <figure className="relative">
+       <div className="card bg-white rounded-2xl shadow-elegant hover-lift overflow-hidden border border-gray-100 transition-all">
+  <figure className="relative h-48 sm:h-56">
     <img
       src={allfood.foodImage}
       alt="Food" 
-      className='w-full h-100 object-cover'/>
+      className='w-full h-full object-cover'/>
     {donorTrust && donorTrust.totalReviews > 0 && (
       <div className="absolute top-2 right-2 bg-white px-2 py-1 rounded-full shadow-md text-xs font-bold text-gray-700 flex items-center gap-1">
           <FaStar className="text-orange-400" />
@@ -32,16 +32,19 @@ const AvailableFood = ({allfood}) => {
       </div>
     )}
   </figure>
-  <div className="card-body p-4">
-    <h2 className="card-title text-lg">{allfood.foodName}</h2>
+  <div className="card-body p-5">
+    <h2 className="card-title text-xl font-bold text-gray-800 tracking-tight">{allfood.foodName}</h2>
     
-    <div className='text-start text-sm text-gray-500 mb-2'>
-        <p><span className="font-semibold text-gray-700">Donor:</span> {allfood.donnerName}</p>
-        <p className="line-clamp-2"><span className="font-semibold text-gray-700">Notes:</span> {allfood.notes}</p>
+    <div className='text-start text-sm text-gray-500 mb-4 mt-2 space-y-1 bg-gray-50 p-3 rounded-xl border border-gray-100'>
+        <p><span className="font-semibold text-emerald-700">Donor:</span> <span className="text-gray-700">{allfood.donnerName}</span></p>
+        <p className="line-clamp-2"><span className="font-semibold text-emerald-700">Notes:</span> <span className="text-gray-700">{allfood.notes}</span></p>
     </div>
     
-    <div className="card-actions justify-end mt-auto">
-      <Link className="text-green-700 font-semibold flex items-center justify-center gap-1 hover:text-green-800 transition-colors" to={`/details/${allfood._id}`}>View Details <span><FaArrowRight /></span></Link>
+    <div className="card-actions justify-end mt-auto pt-2 border-t border-gray-100">
+      <Link className="text-emerald-600 font-bold flex items-center justify-center gap-2 hover:text-emerald-800 transition-colors group" to={`/details/${allfood._id}`}>
+        View Details 
+        <span className="transform group-hover:translate-x-1 transition-transform"><FaArrowRight /></span>
+      </Link>
     </div>
   </div>
 </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useLoaderData, useNavigate } from "react-router";
 import AvailableFood from "./AvailableFood";
+import RecipientInsights from "../../component/RecipientInsights/RecipientInsights";
 import { AuthContext } from "../../Context/AuthContext";
 import axios from "axios";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
@@ -124,24 +125,33 @@ const AvialableFoods = () => {
   const mapCenter = userLocation ? [userLocation.lat, userLocation.lng] : [19.0760, 72.8777]; // default Mumbai
 
   return (
-    <div className="py-32 w-full secondary">
-      <title>sharebite || available foods</title>
+    <div className="py-24 md:py-32 w-full bg-slate-50 min-h-screen">
+      <title>ShareBite | Available Foods</title>
 
-      <div className="text-color text-center">
-        <h1 className="text-3xl font-bold mb-3">Available Foods</h1>
-        <p className="text-sm font-bold">
-          Browse all the shared meals that are up for grabs. Claims your portion
+      <div className="text-gray-800 text-center responsive">
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight text-emerald-900">Available Foods</h1>
+        <p className="text-base md:text-lg font-medium text-gray-500 max-w-2xl mx-auto mb-12">
+          Browse all the shared meals that are up for grabs. Claim your portion
           before it's gone - help reduce food waste and support your community!
         </p>
 
-        <div className="responsive my-10">
-          <form onSubmit={handleSearch} className="flex items-center justify-center mb-10">
-            <input className="bg-white p-2 rounded-l-md w-full max-w-md" type="search" name='search' placeholder="Search foods or donors..."/>
-            <button className="p-3 cursor-pointer rounded-r-md border-l bg-white hover:bg-gray-100 transition"><FaSearch></FaSearch></button>
+        <RecipientInsights />
+
+        <div className="w-full">
+          <form onSubmit={handleSearch} className="flex items-stretch justify-center mb-10 mx-auto max-w-xl shadow-elegant rounded-full overflow-hidden bg-white hover-lift">
+            <input 
+              className="bg-transparent p-4 w-full outline-none text-gray-700 placeholder-gray-400" 
+              type="search" 
+              name='search' 
+              placeholder="Search foods or donors..."
+            />
+            <button className="px-6 bg-emerald-500 hover:bg-emerald-600 text-white transition-colors flex items-center justify-center">
+              <FaSearch size={18} />
+            </button>
           </form>
 
           {/* Interactive Map Section */}
-          <div className="w-full h-96 rounded-xl overflow-hidden shadow-md mb-12 border border-gray-200 z-0 relative z-[1]">
+          <div className="w-full h-96 md:h-[500px] rounded-3xl overflow-hidden shadow-elegant mb-16 border-4 border-white relative z-[1]">
              <MapContainer 
                 center={mapCenter} 
                 zoom={11} 
@@ -185,7 +195,10 @@ const AvialableFoods = () => {
               {userLocation && (<>
                   {within1km.length > 0 && (
                       <section>
-                          <h2 className="text-2xl font-bold mb-4 text-green-700 pb-2 border-b border-gray-300">Within 1 km</h2>
+                          <h2 className="text-2xl font-bold mb-6 text-emerald-800 flex items-center gap-2">
+                            <span className="w-8 h-1 bg-emerald-500 rounded-full inline-block"></span>
+                            Within 1 km
+                          </h2>
                           <div className={`grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4`}>
                               {within1km.map(food => <AvailableFood key={food._id} allfood={food} />)}
                           </div>
@@ -194,7 +207,10 @@ const AvialableFoods = () => {
 
                   {within5km.length > 0 && (
                       <section>
-                          <h2 className="text-2xl font-bold mb-4 text-green-600 pb-2 border-b border-gray-300">Within 5 km</h2>
+                          <h2 className="text-2xl font-bold mb-6 text-emerald-600 flex items-center gap-2">
+                            <span className="w-8 h-1 bg-emerald-400 rounded-full inline-block"></span>
+                            Within 5 km
+                          </h2>
                           <div className={`grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4`}>
                               {within5km.map(food => <AvailableFood key={food._id} allfood={food} />)}
                           </div>
@@ -203,7 +219,10 @@ const AvialableFoods = () => {
 
                   {within10km.length > 0 && (
                       <section>
-                          <h2 className="text-2xl font-bold mb-4 text-orange-500 pb-2 border-b border-gray-300">Within 10 km</h2>
+                          <h2 className="text-2xl font-bold mb-6 text-amber-500 flex items-center gap-2">
+                            <span className="w-8 h-1 bg-amber-400 rounded-full inline-block"></span>
+                            Within 10 km
+                          </h2>
                           <div className={`grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4`}>
                               {within10km.map(food => <AvailableFood key={food._id} allfood={food} />)}
                           </div>
@@ -214,8 +233,9 @@ const AvialableFoods = () => {
               {/* Catch-all for others (no location calc available or distance > 10km) */}
               {others.length > 0 && (
                   <section>
-                      <h2 className="text-2xl font-bold mb-4 text-gray-700 pb-2 border-b border-gray-300">
-                          {userLocation ? "More than 10 km / Location Unavailable" : "All Available Foods"}
+                      <h2 className="text-2xl font-bold mb-6 text-slate-700 flex items-center gap-2">
+                          <span className="w-8 h-1 bg-slate-400 rounded-full inline-block"></span>
+                          {userLocation ? "More than 10 km" : "All Available Foods"}
                       </h2>
                       <div className={`grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4`}>
                           {others.map(food => <AvailableFood key={food._id} allfood={food} />)}

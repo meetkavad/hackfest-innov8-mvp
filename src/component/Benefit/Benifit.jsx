@@ -10,8 +10,8 @@ const Benifit = () => {
         transition={{ duration: 3, ease: "easeOut" }}
         className="text-color text-center"
       >
-        <h2 className="text-3xl font-bold mb-3">Benefits of Use Our Platform</h2>
-        <p className="text-color">Discocer how your small act of kindness can make a dig difference in someone's life. 
+        <h2 className="text-3xl font-bold mb-3">Benefits of Our Platform</h2>
+        <p className="text-color">Discover how your small act of kindness can make a big difference in someone's life. 
         Explore the key benefits of using our community food sharing platform.
         </p>
       </motion.div>
@@ -27,7 +27,7 @@ const Benifit = () => {
            <img src="https://i.ibb.co/Q3PZTDVR/pexels-robinstickel-70497.jpg" alt="Help qommunity" className="w-full h-40 object-cover rounded-md mb-3" />
 
            <h3 className="text-xl font-semibold mb-1">Reduce Food Waste</h3>
-           <p className="text-color">Share your food surplus insted of throwing it way.</p>
+           <p className="text-color">Share your food surplus instead of throwing it away.</p>
 
         </motion.div>
 
@@ -53,7 +53,7 @@ const Benifit = () => {
            <h3 className="text-xl font-semibold mb-1">
             Easy to Use
            </h3>
-           <p className="text-color">intuitive platform to share or request food in just a few clicks.</p>
+           <p className="text-color">Intuitive platform to share or request food in just a few clicks.</p>
 
         </motion.div>
       </div>

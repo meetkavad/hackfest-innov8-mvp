@@ -138,20 +138,20 @@ const SignUp = () => {
   return (
     <div className={`w-full bg-[#A5D6A7] min-h-screen py-20 flex items-center justify-center`}>
       <title>Registration</title>
-      <div className="md:w-[80%] mx-auto w-full flex bg-gray-900 rounded-2xl shadow-xl overflow-hidden">
+      <div className="md:w-[80%] mx-auto w-full flex bg-emerald-700 rounded-2xl shadow-xl overflow-hidden">
         
         {/* Form Container */}
         <div className="w-full lg:w-1/2 p-8 max-h-[85vh] overflow-y-auto custom-scrollbar">
           <div className="w-full text-center mb-6">
             <h1 className="text-3xl font-extrabold text-white">Join ShareBite</h1>
-            <p className="text-gray-400 mt-2 text-sm">Register as a Donor or Recipient.</p>
+            <p className="text-emerald-100 mt-2 text-sm">Register as a Donor or Recipient.</p>
           </div>
           
           {step === 1 && (
           <form onSubmit={handleSignIn} className="flex flex-col gap-4 text-white">
             
-            <div className="bg-gray-800 p-4 rounded-lg space-y-4">
-                <h2 className="text-orange-400 font-bold border-b border-gray-700 pb-2">Account Type</h2>
+            <div className="bg-emerald-800 p-4 rounded-lg space-y-4">
+                <h2 className="text-white font-bold border-b border-emerald-500 pb-2">Account Type</h2>
                 <div>
                     <label className="text-sm font-bold block mb-1">Select Role</label>
                     <select 
@@ -159,7 +159,7 @@ const SignUp = () => {
                         required 
                         value={role}
                         onChange={(e) => setRole(e.target.value)}
-                        className="select bg-gray-700 text-white w-full"
+                        className="select bg-emerald-900/50 text-white w-full border-none focus:outline-none focus:ring-2 focus:ring-white/50"
                     >
                         <option value="donor">Donor (Restaurant/Provider)</option>
                         <option value="recipient">Recipient (NGO/Individual)</option>
@@ -167,25 +167,25 @@ const SignUp = () => {
                 </div>
             </div>
 
-            <div className="bg-gray-800 p-4 rounded-lg space-y-4">
-                <h2 className="text-orange-400 font-bold border-b border-gray-700 pb-2">Basic Information</h2>
+            <div className="bg-emerald-800 p-4 rounded-lg space-y-4">
+                <h2 className="text-white font-bold border-b border-emerald-500 pb-2">Basic Information</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label className="text-sm font-bold block mb-1">Full Name</label>
-                        <input type="text" name="name" required className="input bg-gray-700 text-white w-full" placeholder="John Doe" />
+                        <input type="text" name="name" required className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full placeholder-emerald-300" placeholder="John Doe" />
                     </div>
                     <div>
                         <label className="text-sm font-bold block mb-1">Email</label>
-                        <input type="email" name="email" required className="input bg-gray-700 text-white w-full" placeholder="email@example.com" />
+                        <input type="email" name="email" required className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full placeholder-emerald-300" placeholder="email@example.com" />
                     </div>
                     <div className="md:col-span-2">
                         <label className="text-sm font-bold block mb-1">Photo URL</label>
-                        <input type="text" name="photoUrl" className="input bg-gray-700 text-white w-full" placeholder="https://..." />
+                        <input type="text" name="photoUrl" className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full placeholder-emerald-300" placeholder="https://..." />
                     </div>
                     <div className="relative md:col-span-2">
                         <label className="text-sm font-bold block mb-1">Password</label>
-                        <input required name="password" type={showPass ? "text" : "password"} className="input bg-gray-700 text-white w-full pr-10" placeholder="Password" />
-                        <div onClick={() => setShowPass(!showPass)} className="absolute right-3 top-9 text-gray-400 cursor-pointer hover:text-white">
+                        <input required name="password" type={showPass ? "text" : "password"} className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full pr-10 placeholder-emerald-300" placeholder="Password" />
+                        <div onClick={() => setShowPass(!showPass)} className="absolute right-3 top-9 text-emerald-200 cursor-pointer hover:text-white">
                             {showPass ? <FaRegEyeSlash /> : <FaRegEye />}
                         </div>
                     </div>
@@ -194,76 +194,76 @@ const SignUp = () => {
 
             {/* Donor Fields */}
             {role === 'donor' && (
-                <div className="bg-gray-800 p-4 rounded-lg space-y-4 animate-fade-in">
-                    <h2 className="text-orange-400 font-bold border-b border-gray-700 pb-2">Business Details (Requires Verification)</h2>
+                <div className="bg-emerald-800 p-4 rounded-lg space-y-4 animate-fade-in">
+                    <h2 className="text-white font-bold border-b border-emerald-500 pb-2">Business Details (Requires Verification)</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label className="text-sm font-bold block mb-1 text-gray-300">Organization / Restaurant Name *</label>
-                            <input type="text" name="businessName" required className="input bg-gray-700 border-orange-500/30 text-white w-full" />
+                            <label className="text-sm font-bold block mb-1 text-emerald-100">Organization / Restaurant Name *</label>
+                            <input type="text" name="businessName" required className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full" />
                         </div>
                         <div>
-                            <label className="text-sm font-bold block mb-1 text-gray-300">Owner / Authorized Person Name *</label>
-                            <input type="text" name="ownerName" required className="input bg-gray-700 border-orange-500/30 text-white w-full" />
+                            <label className="text-sm font-bold block mb-1 text-emerald-100">Owner / Authorized Person Name *</label>
+                            <input type="text" name="ownerName" required className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full" />
                         </div>
                         <div>
-                            <label className="text-sm font-bold block mb-1 text-gray-300">Business Registration No. (GST/FSSAI) *</label>
-                            <input type="text" name="businessRegNo" required className="input bg-gray-700 border-orange-500/30 text-white w-full" />
+                            <label className="text-sm font-bold block mb-1 text-emerald-100">Business Registration No. (GST/FSSAI) *</label>
+                            <input type="text" name="businessRegNo" required className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full" />
                         </div>
                         <div>
-                            <label className="text-sm font-bold block mb-1 text-gray-300">Phone Number *</label>
-                            <input type="tel" name="phone" required className="input bg-gray-700 border-orange-500/30 text-white w-full" />
+                            <label className="text-sm font-bold block mb-1 text-emerald-100">Phone Number *</label>
+                            <input type="tel" name="phone" required className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full" />
                         </div>
                         <div className="md:col-span-2">
-                            <label className="text-sm font-bold block mb-1 text-gray-300">Complete Address *</label>
-                            <input type="text" name="address" required className="input bg-gray-700 border-orange-500/30 text-white w-full" />
+                            <label className="text-sm font-bold block mb-1 text-emerald-100">Complete Address *</label>
+                            <input type="text" name="address" required className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full" />
                         </div>
                         <div>
-                            <label className="text-sm font-bold block mb-1 text-gray-300">Type of Food Provided</label>
-                            <input type="text" name="foodType" placeholder="e.g. Veg, Non-Veg, Packaged" className="input bg-gray-700 text-white w-full" />
+                            <label className="text-sm font-bold block mb-1 text-emerald-100">Type of Food Provided</label>
+                            <input type="text" name="foodType" placeholder="e.g. Veg, Non-Veg, Packaged" className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full placeholder-emerald-300" />
                         </div>
                         <div>
-                            <label className="text-sm font-bold block mb-1 text-gray-300">Operating Hours</label>
-                            <input type="text" name="operatingHours" placeholder="e.g. 9 AM - 10 PM" className="input bg-gray-700 text-white w-full" />
+                            <label className="text-sm font-bold block mb-1 text-emerald-100">Operating Hours</label>
+                            <input type="text" name="operatingHours" placeholder="e.g. 9 AM - 10 PM" className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full placeholder-emerald-300" />
                         </div>
                     </div>
 
                     <div className="mt-4">
-                        <label className="text-sm font-bold block mb-2 text-gray-300">Pin your specific location on the map * (Required for notifying nearby recipients)</label>
+                        <label className="text-sm font-bold block mb-2 text-emerald-100">Pin your specific location on the map * (Required for notifying nearby recipients)</label>
                         <MapPicker onLocationSelect={(loc) => setLocation(loc)} />
-                        {!location && <p className="text-xs text-red-400 mt-1">Please drop a pin on the map to continue.</p>}
+                        {!location && <p className="text-xs text-emerald-200 font-semibold mt-1">Please drop a pin on the map to continue.</p>}
                     </div>
 
-                    <h2 className="text-orange-400 font-bold border-b border-gray-700 pb-2 pt-4">Document Uploads (URLs)</h2>
-                    <p className="text-xs text-gray-400 mb-2">Please provide public accessible URLs (e.g., Imgur, Google Drive) for your documents for admin verification.</p>
+                    <h2 className="text-white font-bold border-b border-emerald-500 pb-2 pt-4">Document Uploads (URLs)</h2>
+                    <p className="text-xs text-emerald-100 mb-2">Please provide public accessible URLs (e.g., Imgur, Google Drive) for your documents for admin verification.</p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div><label className="text-xs font-bold block mb-1 text-gray-300">FSSAI License URL *</label><input type="text" name="fssaiCertUrl" required className="input bg-gray-700 border-blue-500/30 text-white w-full input-sm" /></div>
-                        <div><label className="text-xs font-bold block mb-1 text-gray-300">Gov. ID Proof URL *</label><input type="text" name="idProofUrl" required className="input bg-gray-700 border-blue-500/30 text-white w-full input-sm" /></div>
-                        <div><label className="text-xs font-bold block mb-1 text-gray-300">GST Certificate URL</label><input type="text" name="gstCertUrl" className="input bg-gray-700 text-white w-full input-sm" /></div>
-                        <div><label className="text-xs font-bold block mb-1 text-gray-300">Address Proof URL</label><input type="text" name="addressProofUrl" className="input bg-gray-700 text-white w-full input-sm" /></div>
+                        <div><label className="text-xs font-bold block mb-1 text-emerald-100">FSSAI License URL *</label><input type="text" name="fssaiCertUrl" required className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full input-sm" /></div>
+                        <div><label className="text-xs font-bold block mb-1 text-emerald-100">Gov. ID Proof URL *</label><input type="text" name="idProofUrl" required className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full input-sm" /></div>
+                        <div><label className="text-xs font-bold block mb-1 text-emerald-100">GST Certificate URL</label><input type="text" name="gstCertUrl" className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full input-sm" /></div>
+                        <div><label className="text-xs font-bold block mb-1 text-emerald-100">Address Proof URL</label><input type="text" name="addressProofUrl" className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full input-sm" /></div>
                     </div>
                 </div>
             )}
 
             {/* Recipient Fields */}
             {role === 'recipient' && (
-                <div className="bg-gray-800 p-4 rounded-lg space-y-4 animate-fade-in">
-                    <h2 className="text-orange-400 font-bold border-b border-gray-700 pb-2">Recipient Details (Requires Verification)</h2>
+                <div className="bg-emerald-800 p-4 rounded-lg space-y-4 animate-fade-in">
+                    <h2 className="text-white font-bold border-b border-emerald-500 pb-2">Recipient Details (Requires Verification)</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label className="text-sm font-bold block mb-1 text-gray-300">Organization Name / Full Name *</label>
-                            <input type="text" name="orgName" required className="input bg-gray-700 border-orange-500/30 text-white w-full" />
+                            <label className="text-sm font-bold block mb-1 text-emerald-100">Organization Name / Full Name *</label>
+                            <input type="text" name="orgName" required className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full" />
                         </div>
                         <div>
-                            <label className="text-sm font-bold block mb-1 text-gray-300">Contact Person Name</label>
-                            <input type="text" name="contactPerson" className="input bg-gray-700 text-white w-full" />
+                            <label className="text-sm font-bold block mb-1 text-emerald-100">Contact Person Name</label>
+                            <input type="text" name="contactPerson" className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full" />
                         </div>
                         <div>
-                            <label className="text-sm font-bold block mb-1 text-gray-300">Phone Number *</label>
-                            <input type="tel" name="phone" required className="input bg-gray-700 border-orange-500/30 text-white w-full" />
+                            <label className="text-sm font-bold block mb-1 text-emerald-100">Phone Number *</label>
+                            <input type="tel" name="phone" required className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full" />
                         </div>
                         <div>
-                            <label className="text-sm font-bold block mb-1 text-gray-300">Recipient Type *</label>
-                            <select name="recipientType" required className="select bg-gray-700 border-orange-500/30 text-white w-full">
+                            <label className="text-sm font-bold block mb-1 text-emerald-100">Recipient Type *</label>
+                            <select name="recipientType" required className="select bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full">
                                 <option value="NGO">NGO</option>
                                 <option value="Shelter">Shelter</option>
                                 <option value="Community Group">Community Group</option>
@@ -271,28 +271,28 @@ const SignUp = () => {
                             </select>
                         </div>
                         <div className="md:col-span-2">
-                            <label className="text-sm font-bold block mb-1 text-gray-300">Pickup Address *</label>
-                            <input type="text" name="pickupAddress" required className="input bg-gray-700 border-orange-500/30 text-white w-full" />
+                            <label className="text-sm font-bold block mb-1 text-emerald-100">Pickup Address *</label>
+                            <input type="text" name="pickupAddress" required className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full" />
                         </div>
                         <div className="md:col-span-2">
-                            <label className="text-sm font-bold block mb-1 text-gray-300">Estimated Number of People Served *</label>
-                            <input type="number" name="estimatedPeople" required className="input bg-gray-700 border-orange-500/30 text-white w-full" />
+                            <label className="text-sm font-bold block mb-1 text-emerald-100">Estimated Number of People Served *</label>
+                            <input type="number" name="estimatedPeople" required className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full" />
                         </div>
                     </div>
 
                     <div className="mt-4">
-                        <label className="text-sm font-bold block mb-2 text-gray-300">Pin your specific location on the map * (Required to receive nearby food notifications)</label>
+                        <label className="text-sm font-bold block mb-2 text-emerald-100">Pin your specific location on the map * (Required to receive nearby food notifications)</label>
                         <MapPicker onLocationSelect={(loc) => setLocation(loc)} />
-                        {!location && <p className="text-xs text-red-400 mt-1">Please drop a pin on the map to continue.</p>}
+                        {!location && <p className="text-xs text-emerald-200 font-semibold mt-1">Please drop a pin on the map to continue.</p>}
                     </div>
 
-                    <h2 className="text-orange-400 font-bold border-b border-gray-700 pb-2 pt-4">Document Uploads (URLs)</h2>
-                    <p className="text-xs text-gray-400 mb-2">Please provide public accessible URLs for verification.</p>
+                    <h2 className="text-white font-bold border-b border-emerald-500 pb-2 pt-4">Document Uploads (URLs)</h2>
+                    <p className="text-xs text-emerald-100 mb-2">Please provide public accessible URLs for verification.</p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div><label className="text-xs font-bold block mb-1 text-gray-300">NGO Registration Cert URL</label><input type="text" name="ngoRegCertUrl" className="input bg-gray-700 text-white w-full input-sm" /></div>
-                        <div><label className="text-xs font-bold block mb-1 text-gray-300">Gov. ID Proof URL *</label><input type="text" name="idProofUrl" required className="input bg-gray-700 border-blue-500/30 text-white w-full input-sm" /></div>
-                        <div><label className="text-xs font-bold block mb-1 text-gray-300">Address Proof URL *</label><input type="text" name="addressProofUrl" required className="input bg-gray-700 border-blue-500/30 text-white w-full input-sm" /></div>
-                        <div><label className="text-xs font-bold block mb-1 text-gray-300">Authorization Letter URL</label><input type="text" name="authLetterUrl" className="input bg-gray-700 text-white w-full input-sm" /></div>
+                        <div><label className="text-xs font-bold block mb-1 text-emerald-100">NGO Registration Cert URL</label><input type="text" name="ngoRegCertUrl" className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full input-sm" /></div>
+                        <div><label className="text-xs font-bold block mb-1 text-emerald-100">Gov. ID Proof URL *</label><input type="text" name="idProofUrl" required className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full input-sm" /></div>
+                        <div><label className="text-xs font-bold block mb-1 text-emerald-100">Address Proof URL *</label><input type="text" name="addressProofUrl" required className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full input-sm" /></div>
+                        <div><label className="text-xs font-bold block mb-1 text-emerald-100">Authorization Letter URL</label><input type="text" name="authLetterUrl" className="input bg-emerald-900/50 border-none focus:ring-2 focus:ring-white/50 text-white w-full input-sm" /></div>
                     </div>
                 </div>
             )}
@@ -336,8 +336,15 @@ const SignUp = () => {
         </div>
 
         {/* Image Container */}
-        <div className="hidden lg:block w-1/2 bg-[url('https://i.ibb.co/h1x6sGV9/victoria-shes-UC0-HZd-Uit-WY-unsplash.jpg')] bg-cover bg-center">
-            <div className="w-full h-full bg-black/40 flex flex-col items-center justify-center p-10 text-center">
+        <div 
+          className="hidden lg:block w-1/2 bg-cover bg-center transition-all duration-500"
+          style={{ 
+            backgroundImage: role === 'donor' 
+              ? "url('https://media.istockphoto.com/id/1430371482/photo/asian-volunteers-packing-donated-goods-and-groceries-at-food-bank.jpg?s=612x612&w=0&k=20&c=astRXKyhTtg1UPma7lUPwgmKOOf1_oGYg9F74ristD0=')"
+              : "url('https://png.pngtree.com/thumb_back/fh260/background/20250618/pngtree-volunteers-distributing-food-packages-to-families-in-need-on-world-population-image_17438165.jpg')"
+          }}
+        >
+            <div className="w-full h-full bg-black/60 flex flex-col items-center justify-center p-10 text-center">
                 <h2 className="text-4xl font-extrabold text-white mb-4 italic">Share<span className="text-orange-400">Bite</span></h2>
                 <p className="text-gray-200 text-lg">Bridging the gap between food surplus and food scarcity.</p>
                 <div className="mt-8 space-y-4">

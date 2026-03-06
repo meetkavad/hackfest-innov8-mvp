@@ -38,13 +38,11 @@ const Login = () => {
     >
       <title>LogIn</title>
       <div className="md:w-[60%] py-15 md:mx-auto w-full flex items-center justify-center">
-        
-          <div className="hidden lg:flex bg-[url('https://i.ibb.co/h1x6sGV9/victoria-shes-UC0-HZd-Uit-WY-unsplash.jpg')] w-1/2 h-[500px] rounded-l-2xl bg-cover bg-center bg-norepeat"></div>
-        
+          <div className="hidden lg:flex bg-[url('https://media.istockphoto.com/id/1430371482/photo/asian-volunteers-packing-donated-goods-and-groceries-at-food-bank.jpg?s=612x612&w=0&k=20&c=astRXKyhTtg1UPma7lUPwgmKOOf1_oGYg9F74ristD0=')] w-1/2 h-[500px] rounded-l-2xl bg-cover bg-center bg-norepeat"></div>
 
-        <div className="lg:w-1/2 w-11/12 p-2 bg-gray-900 h-[500px] rounded-2xl lg:rounded-none lg:rounded-r-2xl">
+        <div className="lg:w-1/2 w-11/12 p-6 bg-emerald-700 h-[500px] rounded-2xl lg:rounded-none lg:rounded-r-2xl flex flex-col justify-center">
           <div className="w-full text-center py-5">
-            <h1 className="text-2xl font-extrabold text-white">LogIn Now!</h1>
+            <h1 className="text-2xl font-extrabold text-white">Login Now!</h1>
           </div>
           <form
             onSubmit={handleLogin}
@@ -78,15 +76,15 @@ const Login = () => {
             </div>
 
 
-            <button className="btn bg-red-500 text-white border-none w-full mt-4">
+            <button className="btn bg-white hover:bg-emerald-50 text-emerald-600 font-bold border-none w-full mt-4">
               Login
             </button>
           </form>
 
 
-          <p className="text-white mt-3">
-            Don't have an aacount?{" "}
-            <Link className="text-blue-400 underline" to={"/signup"}>
+          <p className="text-white mt-3 text-center">
+            Don't have an account?{" "}
+            <Link className="text-emerald-100 hover:text-white underline font-bold" to={"/signup"}>
               Registration
             </Link>
           </p>

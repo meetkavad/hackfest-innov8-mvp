@@ -16,6 +16,7 @@ import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
 import adminRoutes from './routes/admin.js';
 import notificationRoutes from './routes/notifications.js';
+import insightRoutes from './routes/insights.js';
 
 dotenv.config();
 
@@ -44,6 +45,7 @@ app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/admin', adminRoutes);
 app.use('/notifications', notificationRoutes);
+app.use('/insights', insightRoutes);
 
 // Basic Route
 app.get('/', (req, res) => {
