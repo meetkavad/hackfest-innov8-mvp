@@ -1,12 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
 import { AuthContext } from '../../Context/AuthContext';
 import { Link } from 'react-router';
 import FoodManage from './FoodManage';
 import Loading from '../Loading/Loading';
+import { FaAward } from 'react-icons/fa';
 
 const ManageFood = () => {
     const [myFoods,setMyFoods]=useState([])
     const [incomingRequests, setIncomingRequests] = useState([])
+    const [donorInfo, setDonorInfo] = useState(null)
 
     const {user,myPostedFoods, myRequest}=useContext(AuthContext);
 
@@ -15,6 +18,11 @@ const ManageFood = () => {
             myPostedFoods(user?.email).then(data=>setMyFoods(data))
             // Fetch the requests made *to* this donor
             myRequest(user?.email, 'donor').then(data => setIncomingRequests(data))
+            
+            // Fetch donor profile to get badges
+            axios.get(`http://localhost:5000/users/${user?.email}`)
+                .then(res => setDonorInfo(res.data))
+                .catch(err => console.error("Failed to fetch donor info for badges", err));
         }
     },[user,myPostedFoods, myRequest])
 
@@ -26,9 +34,25 @@ const ManageFood = () => {
 
             <div className="text-color text-center mb-8">
               <h1 className="text-3xl font-bold mb-3">Manage My Foods</h1>
-              <p className="text-sm font-bold">
+              <p className="text-sm font-bold mb-4">
                   View, Update, or delete the foods you've shared.
               </p>
+              
+              {/* Donor Badges Section */}
+              {donorInfo && donorInfo.badges && donorInfo.badges.length > 0 && (
+                  <div className="max-w-xl mx-auto bg-yellow-50 border border-yellow-200 rounded-xl p-4 shadow-sm animate-fade-in">
+                      <h3 className="text-yellow-800 font-bold mb-2 flex items-center justify-center gap-2">
+                          <FaAward className="text-xl" /> Congratulations! You have earned awards.
+                      </h3>
+                      <div className="flex flex-wrap justify-center gap-2">
+                          {donorInfo.badges.map((badge, index) => (
+                              <span key={index} className="px-3 py-1 bg-yellow-400 text-yellow-900 font-bold text-sm rounded-full shadow-sm flex items-center gap-1">
+                                  <FaAward /> {badge}
+                              </span>
+                          ))}
+                      </div>
+                  </div>
+              )}
             </div>
 
             <div className='responsive'>

@@ -69,7 +69,10 @@ const userSchema = new mongoose.Schema({
   location: {
     type: { type: String, enum: ['Point'], default: 'Point' },
     coordinates: { type: [Number], required: false } // [longitude, latitude]
-  }
+  },
+  
+  // --- Badges & Awards ---
+  badges: [{ type: String }]
 }, { timestamps: true });
 
 userSchema.index({ location: "2dsphere" });

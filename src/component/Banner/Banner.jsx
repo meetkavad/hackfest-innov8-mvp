@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router";
 import { motion } from "motion/react";
+import { AuthContext } from "../../Context/AuthContext";
 
 const Banner = () => {
+  const { user } = useContext(AuthContext);
   return (
     <div
       className="hero min-h-screen"
@@ -21,36 +23,36 @@ const Banner = () => {
           >
             Join the Fight Against{" "}
             <motion.span
-            animate={{
-              color: ["#10b981", "#34d399", "#059669"],
-              transition: { duration: 4, repeat: Infinity },
-            }}
+              animate={{
+                color: ["#10b981", "#34d399", "#059669"],
+                transition: { duration: 4, repeat: Infinity },
+              }}
+            >
+              Food Waste
+            </motion.span>{" "}
+          </motion.h1>
+          <motion.p
+            className="mb-10 text-lg md:text-xl font-light text-gray-200"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
           >
-            Food Waste
-          </motion.span>{" "}
-        </motion.h1>
-        <motion.p
-          className="mb-10 text-lg md:text-xl font-light text-gray-200"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
-        >
-          Share your surplus food with those who need it most. Together, we
-          can build a community where no one sleeps hungry.
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, ease: "easeOut", delay: 0.4 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <Link
-            className="btn bg-emerald-500 hover:bg-emerald-600 border-none text-white rounded-full px-8 py-3 text-lg font-semibold shadow-elegant hover-lift w-full sm:w-auto"
-            to={"/addfood"}
+            Share your surplus food with those who need it most. Together, we
+            can build a community where no one sleeps hungry.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.5, ease: "easeOut", delay: 0.4 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            Donate Food
-          </Link>
-        </motion.div>
+            <Link
+              className="btn bg-emerald-500 hover:bg-emerald-600 border-none text-white rounded-full px-8 py-3 text-lg font-semibold shadow-elegant hover-lift w-full sm:w-auto"
+              to={user?.role === 'recipient' ? "/availablefood" : "/addfood"}
+            >
+              {user?.role === 'recipient' ? "Check Available Food" : "Donate Food"}
+            </Link>
+          </motion.div>
         </div>
       </div>
     </div>

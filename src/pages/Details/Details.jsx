@@ -10,6 +10,7 @@ const Details = () => {
     const {user, myRequest}=useContext(AuthContext)
     const [hasRequested, setHasRequested] = useState(false);
     const [donorDetails, setDonorDetails] = useState(null);
+    const [sentimentSummary, setSentimentSummary] = useState(null);
     const navigate = useNavigate()
   const food = useLoaderData();
   const {
@@ -40,6 +41,11 @@ const Details = () => {
          axios.get(`http://localhost:5000/users/${email}`)
            .then(res => setDonorDetails(res.data))
            .catch(err => console.error("Failed to load donor details for certification badges", err));
+
+         // Fetch sentiment summary
+         axios.get(`http://localhost:5000/reviews/food-reviews/donor/${email}`)
+           .then(res => setSentimentSummary(res.data))
+           .catch(err => console.error("Failed to load sentiment summary", err));
      }
   }, [email]);
 
@@ -139,6 +145,11 @@ const Details = () => {
                             {donorDetails?.status === 'approved' && (
                                 <span className="badge badge-warning text-yellow-950 text-xs font-bold px-2 py-2">Verified Donor</span>
                             )}
+                            {donorDetails?.badges && donorDetails.badges.map((badge, idx) => (
+                                <span key={idx} className="badge bg-yellow-400 border-none text-yellow-900 text-xs font-bold px-3 py-2 shadow-sm">
+                                    🏆 {badge}
+                                </span>
+                            ))}
                         </div>
                       </div>
                     </div>
@@ -186,6 +197,46 @@ const Details = () => {
                     <span className="text-3xl font-black text-purple-600 mb-1">{food.donorTrustScore.overall.toFixed(1)} <span className="text-xl">★</span></span>
                     <span className="text-xs font-bold text-purple-800 uppercase tracking-wide">Overall</span>
                   </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* What people say - Sentiment Analysis */}
+          {sentimentSummary && sentimentSummary.totalReviews > 0 && (
+            <div className="mt-6 px-4 md:px-10 pb-6 w-full">
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-emerald-100 w-full mx-auto max-w-3xl">
+                <div className="text-sm text-center font-bold text-gray-400 uppercase tracking-wider mb-6 flex items-center justify-center gap-3">
+                   <div className="h-px bg-gray-200 flex-1 max-w-[50px] md:max-w-[100px]"></div>
+                   What People Say
+                   <div className="h-px bg-gray-200 flex-1 max-w-[50px] md:max-w-[100px]"></div>
+                </div>
+                
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                    {/* Sentiment Label */}
+                    <div className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-xl border border-gray-100 w-full md:w-1/3">
+                        <span className="text-sm font-bold text-gray-500 uppercase tracking-wide mb-2">Overall Sentiment</span>
+                        <span className={`text-2xl font-black ${
+                            sentimentSummary.sentimentLabel.includes('Positive') ? 'text-green-600' :
+                            sentimentSummary.sentimentLabel.includes('Negative') ? 'text-red-600' : 'text-gray-600'
+                        }`}>
+                            {sentimentSummary.sentimentLabel}
+                        </span>
+                    </div>
+
+                    {/* Top Keywords */}
+                    {sentimentSummary.topKeywords && sentimentSummary.topKeywords.length > 0 && (
+                        <div className="w-full md:w-2/3">
+                            <h4 className="text-sm font-bold text-gray-600 mb-3 text-center md:text-left">Frequently mentioned keywords:</h4>
+                            <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
+                                {sentimentSummary.topKeywords.map((keyword, index) => (
+                                    <span key={index} className="px-3 py-1.5 bg-emerald-50 text-emerald-700 font-semibold text-sm rounded-full border border-emerald-200 shadow-sm capitalize">
+                                        "{keyword}"
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
               </div>
             </div>

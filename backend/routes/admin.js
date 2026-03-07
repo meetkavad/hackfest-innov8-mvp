@@ -88,6 +88,71 @@ router.get('/poor-performers', async (req, res) => {
   }
 });
 
+// GET Top Performing Donors (by number of foods donated)
+router.get('/top-performers', async (req, res) => {
+  try {
+    const topPerformers = await Food.aggregate([
+      // Group by donor email and count foods
+      { $group: { _id: "$email", totalFoodsDonated: { $sum: 1 } } },
+      // Sort in descending order
+      { $sort: { totalFoodsDonated: -1 } },
+      // Lookup to get donor details from users collection
+      {
+        $lookup: {
+          from: 'users',
+          localField: '_id',
+          foreignField: 'email',
+          as: 'donorInfo'
+        }
+      },
+      // Unwind the array
+      { $unwind: "$donorInfo" },
+      // Project only necessary fields
+      {
+        $project: {
+          email: "$_id",
+          totalFoodsDonated: 1,
+          name: "$donorInfo.name",
+          businessName: "$donorInfo.businessName",
+          photoUrl: "$donorInfo.photoUrl",
+          trustScore: "$donorInfo.trustScore",
+          badges: "$donorInfo.badges"
+        }
+      }
+    ]);
+
+    res.json(topPerformers);
+  } catch (error) {
+    console.error("Error fetching top performers:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// POST Award a badge to a specific user
+router.post('/award-badge', async (req, res) => {
+  try {
+    const { email, badge } = req.body;
+    if (!email || !badge) {
+        return res.status(400).json({ message: "Email and badge are required."});
+    }
+
+    const user = await User.findOneAndUpdate(
+       { email },
+       { $addToSet: { badges: badge } }, // Prevents duplicates
+       { new: true }
+    );
+
+    if (!user) {
+        return res.status(404).json({ message: "User not found." });
+    }
+
+    res.json({ message: "Badge awarded successfully.", user });
+  } catch(error) {
+      console.error("Error awarding badge:", error);
+      res.status(500).json({ error: error.message });
+  }
+});
+
 // GET all requests for admin
 router.get('/requests', async (req, res) => {
   try {

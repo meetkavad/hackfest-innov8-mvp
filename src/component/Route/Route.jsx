@@ -24,6 +24,7 @@ import AdminFoods from "../../pages/AdminDashboard/AdminFoods";
 import UserVerification from "../../pages/AdminDashboard/UserVerification";
 import AddAdmin from "../../pages/AdminDashboard/AddAdmin";
 import PoorPerformers from "../../pages/AdminDashboard/PoorPerformers";
+import TopPerformers from "../../pages/AdminDashboard/TopPerformers";
 import AddBlog from "../../pages/AdminDashboard/AddBlog";
 
 import AdminRoute from "./AdminRoute";
@@ -85,6 +86,7 @@ import AdminRoute from "./AdminRoute";
             { path: 'requests', element: <AllRequests></AllRequests> },
             { path: 'foods', element: <AdminFoods></AdminFoods> },
             { path: 'poor-performers', element: <PoorPerformers></PoorPerformers> },
+            { path: 'top-performers', element: <TopPerformers></TopPerformers> },
             { path: 'add-admin', element: <AddAdmin></AddAdmin> },
             { path: 'add-blog', element: <AddBlog></AddBlog> }
           ]

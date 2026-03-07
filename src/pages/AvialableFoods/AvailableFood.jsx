@@ -5,13 +5,19 @@ import { Link } from 'react-router';
 
 const AvailableFood = ({allfood}) => {
     const [donorTrust, setDonorTrust] = useState(null);
+    const [donorBadges, setDonorBadges] = useState([]);
 
     useEffect(() => {
         if (allfood.email) {
             axios.get(`http://localhost:5000/users/${allfood.email}`)
                 .then(res => {
-                    if (res.data && res.data.trustScore) {
-                        setDonorTrust(res.data.trustScore);
+                    if (res.data) {
+                        if (res.data.trustScore) {
+                            setDonorTrust(res.data.trustScore);
+                        }
+                        if (res.data.badges) {
+                            setDonorBadges(res.data.badges);
+                        }
                     }
                 })
                 .catch(err => console.error("Failed to fetch donor trust score", err));
@@ -75,6 +81,17 @@ const AvailableFood = ({allfood}) => {
         <p><span className="font-semibold text-emerald-700">Donor:</span> <span className="text-gray-700">{allfood.donnerName || allfood.email?.split('@')[0] || "Generous Donor"}</span></p>
         <p><span className="font-semibold text-emerald-700">Quantity:</span> <span className="text-gray-700">{allfood.quantity || allfood.foodQuantity} People</span></p>
         <p className="line-clamp-2"><span className="font-semibold text-emerald-700">Notes:</span> <span className="text-gray-700">{allfood.notes}</span></p>
+        
+        {/* Donor Badges Display */}
+        {donorBadges && donorBadges.length > 0 && (
+            <div className="pt-2 flex flex-wrap gap-1">
+                {donorBadges.map((badge, idx) => (
+                    <span key={idx} className="text-[10px] px-2 py-0.5 bg-yellow-100 text-yellow-800 font-bold rounded border border-yellow-200 flex items-center gap-1" title={badge}>
+                        <FaStar className="text-[10px]" /> {badge.length > 20 ? badge.substring(0,20)+'...' : badge}
+                    </span>
+                ))}
+            </div>
+        )}
     </div>
     
     <div className="card-actions justify-end mt-auto pt-2 border-t border-gray-100">
