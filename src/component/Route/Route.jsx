@@ -46,7 +46,7 @@ import AdminRoute from "./AdminRoute";
         {
           path:'/availablefood',
           element:<AvialableFoods></AvialableFoods>,
-          loader: ()=>fetch('http://localhost:5000/foods?status=available'),
+          loader: ()=>fetch('http://localhost:5000/foods?status=available&excludeExpired=true'),
            HydrateFallback:Loading
         },
         {

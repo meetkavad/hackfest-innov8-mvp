@@ -13,6 +13,17 @@ router.get('/', async (req, res) => {
     if (req.query.status) {
       query.status = req.query.status;
     }
+
+    if (req.query.excludeExpired === 'true') {
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      const todayString = `${yyyy}-${mm}-${dd}`;
+      
+      query.expiredDate = { $gte: todayString };
+    }
+
     const foods = await Food.find(query).sort({ createdAt: -1 });
     res.json(foods);
   } catch (error) {
