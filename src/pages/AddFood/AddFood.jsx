@@ -53,7 +53,7 @@ const AddFood = () => {
 
   useEffect(() => {
     if (user?.email) {
-      axios.get(`http://localhost:5000/users/${user.email}`)
+      axios.get(`${import.meta.env.VITE_API_URL}/users/${user.email}`)
         .then(res => {
           setDbUser(res.data);
           if (res.data?.address) {
@@ -96,7 +96,7 @@ const AddFood = () => {
     newData.notifyRecipients = notifyRecipients;
     newData.notifyRange = notifyRange;
 
-    axios.post('http://localhost:5000/foods',newData).then(res=>{
+    axios.post(`${import.meta.env.VITE_API_URL}/foods`,newData).then(res=>{
         if(res.data.insertedId){
             toast.success('Foods Added Successfully!')
             form.reset()

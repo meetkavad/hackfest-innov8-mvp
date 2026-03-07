@@ -14,7 +14,7 @@ const BlogDetails = () => {
     queryKey: ["blogs"],
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:5000/blogs/${id}`
+        `${import.meta.env.VITE_API_URL}/blogs/${id}`
       );
       return res.data;
     },

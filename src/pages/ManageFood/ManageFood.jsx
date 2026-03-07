@@ -20,7 +20,7 @@ const ManageFood = () => {
             myRequest(user?.email, 'donor').then(data => setIncomingRequests(data))
             
             // Fetch donor profile to get badges
-            axios.get(`http://localhost:5000/users/${user?.email}`)
+            axios.get(`${import.meta.env.VITE_API_URL}/users/${user?.email}`)
                 .then(res => setDonorInfo(res.data))
                 .catch(err => console.error("Failed to fetch donor info for badges", err));
         }

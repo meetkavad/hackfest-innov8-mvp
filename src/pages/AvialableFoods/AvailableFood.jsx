@@ -9,7 +9,7 @@ const AvailableFood = ({allfood}) => {
 
     useEffect(() => {
         if (allfood.email) {
-            axios.get(`http://localhost:5000/users/${allfood.email}`)
+            axios.get(`${import.meta.env.VITE_API_URL}/users/${allfood.email}`)
                 .then(res => {
                     if (res.data) {
                         if (res.data.trustScore) {

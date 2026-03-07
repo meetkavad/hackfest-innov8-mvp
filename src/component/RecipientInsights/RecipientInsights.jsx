@@ -12,7 +12,7 @@ const RecipientInsights = () => {
     const fetchInsights = async () => {
       if (user?.email && user?.role === 'recipient') {
         try {
-          const res = await axios.get(`http://localhost:5000/insights/recipient/${user.email}`);
+          const res = await axios.get(`${import.meta.env.VITE_API_URL}/insights/recipient/${user.email}`);
           setInsightData(res.data);
         } catch (error) {
           console.error("Failed to fetch recipient insights", error);

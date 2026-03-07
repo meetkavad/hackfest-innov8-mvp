@@ -9,7 +9,7 @@ const UsersList = () => {
 
     const fetchUsers = () => {
         const query = filterRole ? `?role=${filterRole}` : '';
-        axios.get(`http://localhost:5000/users${query}`)
+        axios.get(`${import.meta.env.VITE_API_URL}/users${query}`)
             .then(res => {
                 setUsers(res.data);
                 setLoading(false);
@@ -30,7 +30,7 @@ const UsersList = () => {
             return;
         }
         
-        axios.delete(`http://localhost:5000/admin/users/${userId}`, { data: { reason } })
+        axios.delete(`${import.meta.env.VITE_API_URL}/admin/users/${userId}`, { data: { reason } })
             .then(() => {
                 toast.success('User deleted successfully and email sent!');
                 document.getElementById('user_details_modal_' + userId).close();

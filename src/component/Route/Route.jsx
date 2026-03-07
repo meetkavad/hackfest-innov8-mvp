@@ -47,7 +47,7 @@ import AdminRoute from "./AdminRoute";
         {
           path:'/availablefood',
           element:<AvialableFoods></AvialableFoods>,
-          loader: ()=>fetch('http://localhost:5000/foods?status=available&excludeExpired=true'),
+          loader: ()=>fetch(`${import.meta.env.VITE_API_URL}/foods?status=available&excludeExpired=true`),
            HydrateFallback:Loading
         },
         {
@@ -65,7 +65,7 @@ import AdminRoute from "./AdminRoute";
         {
           path:'/details/:id',
           element:<PrivetRout> <Details></Details> </PrivetRout>,
-          loader:({params})=>fetch(`http://localhost:5000/foods/${params.id}`),
+          loader:({params})=>fetch(`${import.meta.env.VITE_API_URL}/foods/${params.id}`),
           HydrateFallback:Loading
         },
         {

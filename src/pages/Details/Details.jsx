@@ -38,12 +38,12 @@ const Details = () => {
 
   useEffect(() => {
      if (email) {
-         axios.get(`http://localhost:5000/users/${email}`)
+         axios.get(`${import.meta.env.VITE_API_URL}/users/${email}`)
            .then(res => setDonorDetails(res.data))
            .catch(err => console.error("Failed to load donor details for certification badges", err));
 
          // Fetch sentiment summary
-         axios.get(`http://localhost:5000/reviews/food-reviews/donor/${email}`)
+         axios.get(`${import.meta.env.VITE_API_URL}/reviews/food-reviews/donor/${email}`)
            .then(res => setSentimentSummary(res.data))
            .catch(err => console.error("Failed to load sentiment summary", err));
      }
@@ -72,7 +72,7 @@ const Details = () => {
 
     }
 
-    axios.post('http://localhost:5000/myrequest',reqInfo)
+    axios.post(`${import.meta.env.VITE_API_URL}/myrequest`,reqInfo)
     .then(res=>{
         if(res.data.insertedId){
             toast.success('Request successfully!')

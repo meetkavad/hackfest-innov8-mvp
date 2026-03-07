@@ -49,7 +49,7 @@ const AvialableFoods = () => {
   // Fetch logged in user's coordinates to calculate distances
   useEffect(() => {
     if (user && user.email) {
-      axios.get(`http://localhost:5000/users/${user.email}`)
+      axios.get(`${import.meta.env.VITE_API_URL}/users/${user.email}`)
         .then(res => {
           if (res.data && res.data.location && res.data.location.coordinates) {
              // GeoJSON stores coordinates as [longitude, latitude]

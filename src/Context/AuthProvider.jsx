@@ -8,7 +8,7 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const myRequest=(email, roleField = 'recipient')=>{
-    return fetch(`http://localhost:5000/myrequest?email=${email}&roleField=${roleField}`,{
+    return fetch(`${import.meta.env.VITE_API_URL}/myrequest?email=${email}&roleField=${roleField}`,{
       headers:{
         authorization:`Bearer ${user?.accessToken}`
       }
@@ -16,7 +16,7 @@ const AuthProvider = ({ children }) => {
   }
 
   const myPostedFoods=(email)=>{
-    return fetch(`http://localhost:5000/mypostedfoods?email=${email}`,{
+    return fetch(`${import.meta.env.VITE_API_URL}/mypostedfoods?email=${email}`,{
       headers:{
         authorization:`Bearer ${user?.accessToken}`
       }})
@@ -29,7 +29,7 @@ const AuthProvider = ({ children }) => {
   const handleLoginWithEmailPass = async (email, password) => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/auth/login", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -50,7 +50,7 @@ const AuthProvider = ({ children }) => {
   const createUser = async (userData) => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/auth/signup", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),

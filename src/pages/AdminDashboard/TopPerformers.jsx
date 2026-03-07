@@ -9,7 +9,7 @@ const TopPerformers = () => {
 
     const fetchTopPerformers = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/admin/top-performers');
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/admin/top-performers`);
             setPerformers(response.data);
             setLoading(false);
         } catch (error) {
@@ -33,7 +33,7 @@ const TopPerformers = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:5000/admin/award-badge', {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/admin/award-badge`, {
                 email,
                 badge: badgeName
             });

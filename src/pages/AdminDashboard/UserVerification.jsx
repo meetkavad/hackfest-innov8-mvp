@@ -9,7 +9,7 @@ const UserVerification = () => {
     const fetchUsers = () => {
         setLoading(true);
         // Using existing /users endpoint. Let's assume it fetches all users.
-        axios.get('http://localhost:5000/users')
+        axios.get(`${import.meta.env.VITE_API_URL}/users`)
             .then(res => {
                 // Filter only pending users
                 const pendingUsers = res.data.filter(u => u.status === 'pending');
@@ -27,7 +27,7 @@ const UserVerification = () => {
     }, []);
 
     const handleVerify = (id, newStatus) => {
-        axios.patch(`http://localhost:5000/admin/users/${id}/verify`, { status: newStatus })
+        axios.patch(`${import.meta.env.VITE_API_URL}/admin/users/${id}/verify`, { status: newStatus })
             .then(() => {
                 toast.success(`User successfully ${newStatus}!`);
                 fetchUsers(); // Refresh the list

@@ -9,7 +9,7 @@ const ImpactMetrics = () => {
     const [stats, setStats] = useState(null);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/admin/stats')
+        axios.get(`${import.meta.env.VITE_API_URL}/admin/stats`)
             .then(res => setStats(res.data))
             .catch(err => console.error("Error fetching stats:", err));
     }, []);

@@ -14,7 +14,7 @@ const PoorPerformers = () => {
     const fetchPoorPerformers = async () => {
         setLoading(true);
         try {
-            const response = await fetch('http://localhost:5000/admin/poor-performers');
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/poor-performers`);
             const data = await response.json();
             if (response.ok) {
                 setDonors(data);
@@ -36,7 +36,7 @@ const PoorPerformers = () => {
 
         setProcessingId(donorId);
         try {
-            const response = await fetch(`http://localhost:5000/admin/users/${donorId}/verify`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/users/${donorId}/verify`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'

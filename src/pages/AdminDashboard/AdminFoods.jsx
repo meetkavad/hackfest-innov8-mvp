@@ -9,7 +9,7 @@ const AdminFoods = () => {
         // Fetch all foods or just available depending on requirement.
         // For admin, it's often useful to see all foods but filterable.
         // Here we just fetch available as per plan.
-        axios.get('http://localhost:5000/foods?status=available')
+        axios.get(`${import.meta.env.VITE_API_URL}/foods?status=available`)
             .then(res => {
                 setFoods(res.data);
                 setLoading(false);

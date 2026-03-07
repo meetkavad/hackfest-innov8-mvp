@@ -9,7 +9,7 @@ const AllRequests = () => {
     const [selectedRequest, setSelectedRequest] = useState(null);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/admin/requests')
+        axios.get(`${import.meta.env.VITE_API_URL}/admin/requests`)
             .then(res => {
                 let data = res.data;
                 

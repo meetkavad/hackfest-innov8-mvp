@@ -6,7 +6,7 @@ const FoodManage = ({ food, index,setMyFoods,myFoods, incomingRequests, setIncom
   const { status, expiredDate, foodImage,notes, location,quantity, foodName,_id} = food;
 
   const handleDelete=(id)=>{
-    axios.delete(`http://localhost:5000/foods/${id}`).then(res=>{
+    axios.delete(`${import.meta.env.VITE_API_URL}/foods/${id}`).then(res=>{
         if(res.data.deletedCount){
             toast.success('foode deleted successfully!')
             const remainingFoods=myFoods.filter(myfood=>myfood._id!==id)
@@ -25,7 +25,7 @@ const FoodManage = ({ food, index,setMyFoods,myFoods, incomingRequests, setIncom
 
     const {quantity,...newData}=updateData
     newData.quantity=parseInt(quantity)
-    axios.put(`http://localhost:5000/foods/${id}`,newData)
+    axios.put(`${import.meta.env.VITE_API_URL}/foods/${id}`,newData)
     .then(res=>{
       if(res.data.modifiedCount){
         toast.success("food Update successfully!")
@@ -74,7 +74,7 @@ const FoodManage = ({ food, index,setMyFoods,myFoods, incomingRequests, setIncom
                 };
 
                 const updateRequestStatus = (newStatus) => {
-                    axios.patch(`http://localhost:5000/myrequest/${req._id}`, { status: newStatus })
+                    axios.patch(`${import.meta.env.VITE_API_URL}/myrequest/${req._id}`, { status: newStatus })
                          .then(res => {
                              if(res.data) {
                                toast.success(`Request marked as ${newStatus}!`);

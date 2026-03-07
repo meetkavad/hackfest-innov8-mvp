@@ -30,7 +30,7 @@ const AddBlog = () => {
          return;
       }
 
-      await axios.post('http://localhost:5000/blogs', formData);
+      await axios.post(`${import.meta.env.VITE_API_URL}/blogs`, formData);
       toast.success('Blog created successfully!');
       navigate('/admin/impacts'); // Redirect after successful creation
     } catch (error) {

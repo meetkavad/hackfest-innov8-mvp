@@ -8,7 +8,7 @@ const FeaturedFoods = () => {
     const { isPending,isError,error,data}= useQuery ({
         queryKey:['featuredFood'],
         queryFn:async ()=>{
-            const res= await fetch('http://localhost:5000/featuredFoods');
+            const res= await fetch(`${import.meta.env.VITE_API_URL}/featuredFoods`);
             return res.json()
         }
     })

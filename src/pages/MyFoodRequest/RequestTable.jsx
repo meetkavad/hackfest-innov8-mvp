@@ -10,7 +10,7 @@ const RequestTable = ({request,index, requestFood, setRequestFood}) => {
 
     const updateRequestStatus = async (newStatus, openReview = false) => {
         try {
-            await axios.patch(`http://localhost:5000/myrequest/${_id}`, { status: newStatus });
+            await axios.patch(`${import.meta.env.VITE_API_URL}/myrequest/${_id}`, { status: newStatus });
             
             // Update local state
             setRequestFood(prev => prev.map(req => req._id === _id ? { ...req, status: newStatus } : req));
@@ -29,7 +29,7 @@ const RequestTable = ({request,index, requestFood, setRequestFood}) => {
     const submitReview = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/reviews/food-reviews', {
+            await axios.post(`${import.meta.env.VITE_API_URL}/reviews/food-reviews`, {
                 donorEmail: donnerEmail,
                 recipientEmail: requesterEmail,
                 foodId: foodId,

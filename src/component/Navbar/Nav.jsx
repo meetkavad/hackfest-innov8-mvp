@@ -34,7 +34,7 @@ const Nav = () => {
 
   const fetchNotifications = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/notifications/${user.email}`);
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/notifications/${user.email}`);
       setNotifications(res.data);
       const unread = res.data.filter(n => !n.isRead).length;
       setUnreadCount(unread);
@@ -47,7 +47,7 @@ const Nav = () => {
     setShowDropdown(false);
     if (!notif.isRead) {
       try {
-        await axios.patch(`http://localhost:5000/notifications/${notif._id}/read`);
+        await axios.patch(`${import.meta.env.VITE_API_URL}/notifications/${notif._id}/read`);
         // Update local state
         setNotifications(prev => 
           prev.map(n => n._id === notif._id ? { ...n, isRead: true } : n)
