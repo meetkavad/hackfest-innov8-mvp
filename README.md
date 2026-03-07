@@ -32,6 +32,25 @@ ShareBite is a full-stack platform designed to connect food donors (restaurants,
 
 To run this application locally, you will need to start both the frontend and backend servers.
 
+### Environment Variables
+
+Before running the application, you need to configure the environment variables for both the backend and frontend.
+
+#### Backend `.env` (inside `backend/` directory)
+Create a `.env` file in the `backend` directory with the following variables:
+```env
+PORT=5000
+MONGODB_URI="your_mongodb_connection_string"
+EMAIL_USER="your_email@gmail.com"
+EMAIL_PASS="your_email_app_password"
+```
+
+#### Frontend `.env` (inside root directory)
+Create a `.env` file in the root directory with the following variables:
+```env
+VITE_API_URL="http://localhost:5000"
+```
+
 ### 1. Backend Setup
 1. Open a terminal and navigate to the backend directory:
    ```bash
@@ -41,8 +60,7 @@ To run this application locally, you will need to start both the frontend and ba
    ```bash
    npm install
    ```
-3. Set up your environment variables by creating a `.env` file containing your `MONGODB_URI` and email credentials.
-4. Start the server:
+3. Start the server:
    ```bash
    npm run dev
    ```
