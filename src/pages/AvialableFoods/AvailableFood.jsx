@@ -18,6 +18,33 @@ const AvailableFood = ({allfood}) => {
         }
     }, [allfood.email]);
 
+    // Calculate freshness tag
+    const getFreshnessTag = () => {
+        if (!allfood.expiredDate) return null;
+        
+        const today = new Date();
+        // Reset hours for accurate day-level comparison
+        today.setHours(0, 0, 0, 0); 
+        
+        const expDate = new Date(allfood.expiredDate);
+        expDate.setHours(0, 0, 0, 0);
+
+        const diffTime = expDate.getTime() - today.getTime();
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays > 3) {
+            return { label: "Fresh", color: "bg-emerald-500 text-white" };
+        } else if (diffDays > 0 && diffDays <= 3) {
+            return { label: "Expiring Soon", color: "bg-amber-400 text-amber-950" };
+        } else if (diffDays === 0) {
+            return { label: "Expires Today", color: "bg-red-500 text-white animate-pulse" };
+        } else {
+            return { label: "Expired", color: "bg-gray-500 text-white" };
+        }
+    };
+
+    const freshness = getFreshnessTag();
+
     return (
        <div className="card bg-white rounded-2xl shadow-elegant hover-lift overflow-hidden border border-gray-100 transition-all">
   <figure className="relative h-48 sm:h-56">
@@ -25,6 +52,15 @@ const AvailableFood = ({allfood}) => {
       src={allfood.foodImage}
       alt="Food" 
       className='w-full h-full object-cover'/>
+    
+    {/* Freshness Badge */}
+    {freshness && (
+        <div className={`absolute top-2 left-2 px-3 py-1 rounded-full shadow-lg text-xs font-bold ${freshness.color}`}>
+            {freshness.label}
+        </div>
+    )}
+
+    {/* Donor Trust Rating */}
     {donorTrust && donorTrust.totalReviews > 0 && (
       <div className="absolute top-2 right-2 bg-white px-2 py-1 rounded-full shadow-md text-xs font-bold text-gray-700 flex items-center gap-1">
           <FaStar className="text-orange-400" />
@@ -36,7 +72,8 @@ const AvailableFood = ({allfood}) => {
     <h2 className="card-title text-xl font-bold text-gray-800 tracking-tight">{allfood.foodName}</h2>
     
     <div className='text-start text-sm text-gray-500 mb-4 mt-2 space-y-1 bg-gray-50 p-3 rounded-xl border border-gray-100'>
-        <p><span className="font-semibold text-emerald-700">Donor:</span> <span className="text-gray-700">{allfood.donnerName}</span></p>
+        <p><span className="font-semibold text-emerald-700">Donor:</span> <span className="text-gray-700">{allfood.donnerName || allfood.email?.split('@')[0] || "Generous Donor"}</span></p>
+        <p><span className="font-semibold text-emerald-700">Quantity:</span> <span className="text-gray-700">{allfood.quantity || allfood.foodQuantity} People</span></p>
         <p className="line-clamp-2"><span className="font-semibold text-emerald-700">Notes:</span> <span className="text-gray-700">{allfood.notes}</span></p>
     </div>
     

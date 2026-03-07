@@ -5,15 +5,42 @@ const AllRequests = () => {
     const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const [filterStatus, setFilterStatus] = useState('');
+    const [filterTime, setFilterTime] = useState('');
     const [selectedRequest, setSelectedRequest] = useState(null);
 
     useEffect(() => {
         axios.get('http://localhost:5000/admin/requests')
             .then(res => {
                 let data = res.data;
+                
+                // Status Filter
                 if (filterStatus) {
                     data = data.filter(r => r.status === filterStatus);
                 }
+                
+                // Time Filter
+                if (filterTime) {
+                    const now = new Date();
+                    data = data.filter(r => {
+                        const dateString = r.createdAt || r.requestDate;
+                        if (!dateString) return false;
+                        const reqDate = new Date(dateString);
+                        
+                        if (filterTime === 'today') {
+                            return reqDate.toDateString() === now.toDateString();
+                        } else if (filterTime === 'week') {
+                            const lastWeek = new Date(now);
+                            lastWeek.setDate(lastWeek.getDate() - 7);
+                            return reqDate >= lastWeek;
+                        } else if (filterTime === 'month') {
+                            const lastMonth = new Date(now);
+                            lastMonth.setMonth(lastMonth.getMonth() - 1);
+                            return reqDate >= lastMonth;
+                        }
+                        return true;
+                    });
+                }
+
                 setRequests(data);
                 setLoading(false);
             })
@@ -21,7 +48,7 @@ const AllRequests = () => {
                 console.error(err);
                 setLoading(false);
             });
-    }, [filterStatus]);
+    }, [filterStatus, filterTime]);
 
     const formatDate = (dateString) => {
         if (!dateString) return 'N/A';
@@ -33,17 +60,29 @@ const AllRequests = () => {
         <div className="bg-white p-6 rounded shadow-sm border border-gray-100">
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-bold text-gray-800">All Requests</h1>
-                <select 
-                    className="select select-bordered select-sm max-w-xs"
-                    value={filterStatus}
-                    onChange={(e) => setFilterStatus(e.target.value)}
-                >
-                    <option value="">All Statuses</option>
-                    <option value="pending">Pending</option>
-                    <option value="accepted">Accepted</option>
-                    <option value="delivered">Delivered</option>
-                    <option value="cancelled">Cancelled</option>
-                </select>
+                <div className="flex gap-4">
+                    <select 
+                        className="select select-bordered select-sm max-w-xs"
+                        value={filterTime}
+                        onChange={(e) => setFilterTime(e.target.value)}
+                    >
+                        <option value="">All Time</option>
+                        <option value="today">Today</option>
+                        <option value="week">Past 7 Days</option>
+                        <option value="month">Past 30 Days</option>
+                    </select>
+                    <select 
+                        className="select select-bordered select-sm max-w-xs"
+                        value={filterStatus}
+                        onChange={(e) => setFilterStatus(e.target.value)}
+                    >
+                        <option value="">All Statuses</option>
+                        <option value="pending">Pending</option>
+                        <option value="accepted">Accepted</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
             </div>
 
             {loading ? (

@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 const Details = () => {
     const {user, myRequest}=useContext(AuthContext)
     const [hasRequested, setHasRequested] = useState(false);
+    const [donorDetails, setDonorDetails] = useState(null);
     const navigate = useNavigate()
   const food = useLoaderData();
   const {
@@ -33,6 +34,14 @@ const Details = () => {
       }).catch(err => console.error("Failed to check existing requests", err));
     }
   }, [user, food._id, myRequest]);
+
+  useEffect(() => {
+     if (email) {
+         axios.get(`http://localhost:5000/users/${email}`)
+           .then(res => setDonorDetails(res.data))
+           .catch(err => console.error("Failed to load donor details for certification badges", err));
+     }
+  }, [email]);
 
   const handleRequest=e=>{
     e.preventDefault()
@@ -116,9 +125,21 @@ const Details = () => {
                         <p className="font-bold text-gray-800 text-sm mb-0.5">
                           Donor Name : <span className="text-emerald-700">{donnerName}</span>
                         </p>
-                        <p className="font-bold text-sm text-gray-500">
+                        <p className="font-bold text-sm text-gray-500 mb-2">
                           Donor Email : {email}
                         </p>
+                        {/* Donor Certification Badges */}
+                        <div className="flex gap-2 flex-wrap">
+                            {donorDetails?.fssaiCertUrl && (
+                                <span className="badge badge-success text-white text-xs font-bold px-3 py-2">FSSAI Certified</span>
+                            )}
+                            {donorDetails?.govRegCertUrl && (
+                                <span className="badge badge-info text-white text-xs font-bold px-3 py-2">Gov. Registered</span>
+                            )}
+                            {donorDetails?.status === 'approved' && (
+                                <span className="badge badge-warning text-yellow-950 text-xs font-bold px-2 py-2">Verified Donor</span>
+                            )}
+                        </div>
                       </div>
                     </div>
 

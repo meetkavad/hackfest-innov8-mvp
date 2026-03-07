@@ -100,13 +100,19 @@ const AvialableFoods = () => {
          }
      });
 
-     // Sort the categorical arrays by distance natively
-     const sortByDist = (a, b) => (a.calculatedDistance || 999) - (b.calculatedDistance || 999);
+     // Sort the categorical arrays by: 
+     // 1. Array buckets (already done, 1km, 5km, etc.)
+     // 2. Expiration Date within those buckets (freshest / furthest in the future first)
+     const sortByDate = (a, b) => {
+         const dateA = new Date(a.expiredDate || a.createdAt).getTime();
+         const dateB = new Date(b.expiredDate || b.createdAt).getTime();
+         return dateB - dateA; // Descending (furthest future date first)
+     };
      
-     setWithin1km(temp1km.sort(sortByDist));
-     setWithin5km(temp5km.sort(sortByDist));
-     setWithin10km(temp10km.sort(sortByDist));
-     setOthers(tempOthers);
+     setWithin1km(temp1km.sort(sortByDate));
+     setWithin5km(temp5km.sort(sortByDate));
+     setWithin10km(temp10km.sort(sortByDate));
+     setOthers(tempOthers.sort(sortByDate));
 
   }, [allFoods, userLocation]);
 
