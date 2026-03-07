@@ -13,6 +13,17 @@ router.get('/', async (req, res) => {
   }
 });
 
+// POST a new blog
+router.post('/', async (req, res) => {
+  try {
+    const newBlog = new Blog(req.body);
+    const savedBlog = await newBlog.save();
+    res.status(201).json(savedBlog);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // GET single blog by ID
 router.get('/:id', async (req, res) => {
   try {

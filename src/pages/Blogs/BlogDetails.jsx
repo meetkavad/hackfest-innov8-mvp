@@ -20,7 +20,9 @@ const BlogDetails = () => {
     },
   });
 
-  const { image, heading, date, body } = blog;
+  const { image, heading, title, date, body, content } = blog;
+  const displayTitle = title || heading;
+  const displayContent = content || body;
 
   if (isLoading) {
     return <Loading></Loading>;
@@ -37,12 +39,12 @@ const BlogDetails = () => {
     <div className="py-32 bg-gray-50">
      <div className="max-w-4xl mx-auto space-y-2">
 
-        <h1 className="text-3xl font-bold ">{heading}</h1>
+        <h1 className="text-3xl font-bold ">{displayTitle}</h1>
         <p className="text-sm">Author: <span>Share<span className="text-orange-300 text-xl">Bite</span></span> || <span>Date : {date}</span></p>
 
         <img className="w-full h-[600px] object-cover rounded" src={image} alt="" />
 
-        <p>{body}</p>
+        <p className="whitespace-pre-wrap">{displayContent}</p>
 
         <Link className="btn btn-sm text-white primary" to={'/blogs'}>Back to blog</Link>
 

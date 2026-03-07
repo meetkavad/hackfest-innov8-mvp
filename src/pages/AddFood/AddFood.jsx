@@ -143,9 +143,10 @@ const AddFood = () => {
               name='foodImage'
             />
 
-            <label className="font-bold">Food Quantity</label>
+            <label className="font-bold">Food Quantity (based on number of People could be served)</label>
             <input
               type="number"
+              min="1"
               className="input w-full border border-cyan-400 focus:outline-none"
               placeholder="Quantity"
               required

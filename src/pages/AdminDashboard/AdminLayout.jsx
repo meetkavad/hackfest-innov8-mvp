@@ -57,6 +57,12 @@ const AdminLayout = () => {
                     >
                         Add Admin
                     </NavLink>
+                    <NavLink 
+                        to="/admin/add-blog" 
+                        className={({isActive}) => `block px-4 py-2 rounded ${isActive ? 'bg-green-100 text-green-700 font-semibold' : 'text-gray-600 hover:bg-gray-100'}`}
+                    >
+                        Add Blog
+                    </NavLink>
                 </nav>
             </aside>
 
